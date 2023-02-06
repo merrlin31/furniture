@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+@@include('html/head.html', {
+    "title":"Главная"
+})
+<body>
+  <!-- @@include('html/header.html') -->
+  <div class="wraper">
+    <div class="content">
+      <section class="input">
+        <div class="input__container">
+          <form name="inputForm" class="input__form">
+            <h2 class="input__title">Розмір кухні та матеріали:</h2>
+            <div class="input__dimensions global">
+              <div class="global__item">
+                <label for="body-material">Матеріал корпуса:</label>
+                <input type="text" id="bodyMaterial" name="body-material">
+              </div> 
+              <div class="global__item">
+                <label for="price-body">Ціна:</label>
+                <input type="text" id="bodyPrice" name="price-body">
+              </div>
+              <div class="global__item">
+                <label for="facade-material">Матеріал фасаду:</label>
+                <input type="text" id="facadeMaterial" name="facade-material">
+              </div>
+              <div class="global__item">
+                <label for="price-facade">Ціна:</label>
+                <input type="text" id="facadePrice" name="price-facade">
+              </div>
+              <div class="global__item">
+                <label for="tabletop-material">Матеріал Стільниці:</label>
+                <input type="text" id="tabletopMaterial" name="tabletop-material">
+              </div>
+              <div class="global__item">
+                <label for="price-tabletop">Ціна:</label>
+                <input type="text" id="tabletopPrice" name="price-tabletop" required>
+              </div>
+              <div class="global__item">
+                <label for="front-material">Матеріал фасаду:</label>
+                <select name="front-material" id="frontMaterial" class="global__item">
+                </select>
+              </div> 
+              <div class="global__item">
+                <label for="height-kitchen">Висота кухні:</label>
+                <input type="text" id="heightKitchen" name="height-kitchen">
+              </div>
+              <div class="global__item">
+                <label for="height-down-section">Висота нижніх шаф:</label>
+                <input type="text" id="heightDownSection" name="height-down-section" value="900">
+              </div>
+              <div class="global__item">
+                <label for="height-up-section">Висота верхніх шаф:</label>
+                <input type="text" id="heightUpSection" name="heightUpSection" readonly required>
+              </div>
+              <div class="global__item">
+                <label for="plinth">Висота цоколя:</label>
+                <input type="text" id="plinth" name="plinth">
+              </div>
+              <div class="global__item">
+                <label for="countertop-thickness">Товщина стільниці:</label>
+                <input type="text" id="countertopThickness" name="countertop-thickness">
+              </div>
+            </div>
+            <h2 class="input__title">Виберіть тип секції:</h2>
+            <select name="tier" id="tier" class="input__tier tier">
+            </select>
+            <select name="typeTierTop" id="typeTierTop" class="tier__top hide">
+            </select>
+            <select name="typeTierBottom" id="typeTierBottom" class="tier__bottom">
+            </select>
+            <div class="type__dimensions local"> 
+              <div class="local__item">
+                <label for="front">Кількість розпашних фасадів:</label>
+                <input type="text" id="front" name="front" value="1">
+              </div>
+              <div class="local__item">
+                <label for="width">Ширина секції:</label>
+                <input type="text" id="sectionWidth" name="width">
+              </div>
+              <div class="local__item">
+                <label for="depth">Глибина:</label>
+                <input type="text" id="depth" name="depth" value="600">
+              </div>
+              <div class="input__shelves options__item">
+                <label for="shelves">Кількість поличок:</label>
+                <input type="text" id="shelves" name="shelves" value="0">
+              </div>
+              <div class="input__neighboring options__item hide">
+                <label for="neighboringWidth">Ширина сусідньої секції:</label>
+                <input type="text" id="neighboringWidth" name="neighboringWidth" value="600">
+              </div>
+              <div class="input__drawers options__item">
+                <label for="drawers">Кількість висувних ящиків:</label>
+                <input type="text" id="drawers" name="drawers" value="0">
+              </div>
+            </div>
+            <div class="input__options">
+              <div class="options__item input__sink">
+                <label for="sink">Мийка:</label>
+                <input type="checkbox" name="sink">
+              </div>
+              <div class="options__item input__visible-side">
+                <label for="visible-side">Видима боковина:</label>
+                <input type="checkbox" name="visible-side" id="visibleSide">
+              </div>
+              <div class="options__item input__oven">
+                <label for="oven">Вбудована духова шафа:</label>
+                <input type="checkbox" name="oven">
+              </div>
+              <div class="options__item input__microwave hide">
+                <label for="microwave">Вбудована мікрохвильова пічь:</label>
+                <input type="checkbox" name="microwave">
+              </div>
+              <div class="options__item input__fridge hide">
+                <label for="fridge">Вбудований холодильник:</label>
+                <input type="checkbox" name="fridge">
+              </div>
+              <div class="options__item input__dish hide">
+                <label for="dish">Сушка:</label>
+                <input type="checkbox" name="dish">
+              </div>
+              <div class="options__item input__dishwasher">
+                <label for="dishwasher">Посудомийка:</label>
+                <input type="checkbox" name="dishwasher">
+              </div>
+            </div>
+            <button class="input__button local__item" name="inputButton">Додати</button>
+          </form>
+        </div>
+      </section>
+      <section class="detailing">
+        <div class="detailing__container">
+          <h2 class="detailing__title">Перелік деталей:</h2>
+          <div class="detailing__main">
+            <table class="detailing__detail">
+              <thead>
+                <tr>
+                  <th>Довжина</th>
+                  <th>Ширина</th>
+                  <th>Кількість</th>
+                  <th>Верх</th>
+                  <th>Низ</th>
+                  <th>Ліво</th>
+                  <th>Право</th>
+                </tr>
+              </thead>
+              <tbody class="detailing__input1" id="detailingInput1">
+
+              </tbody>
+            </table>
+            <table class="detailing__front">
+              <thead>
+                <tr>
+                  <th>Довжина</th>
+                  <th>Ширина</th>
+                  <th>Кількість</th>
+                  <th>Верх</th>
+                  <th>Низ</th>
+                  <th>Ліво</th>
+                  <th>Право</th>
+                </tr>
+              </thead>
+              <tbody class="detailing__input2" id="detailingInput2">
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+    @@include('html/footer.html')
+  </div>
+  <script src="js/app.min.js"></script>  
+</body>
+</html>
