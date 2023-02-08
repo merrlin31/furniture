@@ -19,10 +19,10 @@ for (let item in typeSection()) {
     tierName[item] = typeSection()[item].name
 }
 Object.entries(typeSection().downSection).forEach(([key, value]) => {
-    key !== 'name' ? typeTierBottomName[key] = value.name : key;
+    if (key !== 'name') typeTierBottomName[key] = value.name;
 })
 Object.entries(typeSection().upSection).forEach(([key, value]) => {
-    key !== 'name' ? typeTierTopName[key] = value.name : key;
+    if (key !== 'name') typeTierTopName[key] = value.name;
 })
 
 function createList(List, input) {

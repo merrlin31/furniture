@@ -9,96 +9,16 @@ const indentJoinSection = 20;
 const partition = 70;
 const indentFront = 3;
 const ovenHeight = 600;
-const microwaveHeight = 362
+const microwaveHeight = 362;
+const ovenDrawer = 83;
 
 const form = document.forms.inputForm;
 
 let countertopThickness, plinth, kitchenHeight, sectionHeight, sectionUpHeight, sectionWidth, sectionDepth, neighboringSectionWidth;
 
-
-// export const typeSection = {
-//     downSection: {
-//         name: 'Нижня шафа',
-//         originalBottomSection: {
-//             name: 'Звичайна шафа',
-//             dimensions: [
-//                 [[sectionHeight - materialWidth], [sectionDepth - indentCountertop], [1, 0, 0, 0]], 
-//                 [[sectionHeight - materialWidth], [sectionDepth - indentCountertop], [1, 0, 0, 0]], 
-//                 [[sectionWidth], [sectionDepth - indentCountertop], [1, 0, 1, 1]], 
-//                 [[sectionWidth - materialWidth * 2], [70], [1, 0, 0, 0]],
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth - indentCountertop - indentShelve], [1, 0, 0, 0]],
-//             ],
-//         },
-//         cornerBottomSection: {
-//             name: 'Кутова шафа',
-//             dimensions: [
-//                 [[sectionHeight - materialWidth], [sectionDepth - indentCountertop], [1, 0, 0, 0]], 
-//                 [[sectionHeight - materialWidth], [sectionDepth - indentCountertop], [1, 0, 0, 0]], 
-//                 [[sectionWidth - indentWall], [sectionDepth - indentCountertop], [1, 0, 1, 1]], 
-//                 [[sectionWidth - materialWidth * 2 - indentWall], [70], [1, 0, 0, 0]],
-//                 [[sectionWidth - materialWidth * 2 - indentWall], [sectionDepth - indentCountertop - indentCornerSection], [1, 0, 0, 0]],
-//             ],
-//         },
-//         cupboardSection: {
-//             name: 'Велика шафа',
-//             dimensions: [
-//                 [[kitchenHeight], [sectionDepth - indentCupboard], [1, 1, 1, 1]], 
-//                 [[kitchenHeight], [sectionDepth - indentCupboard], [1, 1, 1, 1]], 
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth - indentCountertop], [1, 0, 0, 0]], 
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth - indentCountertop], [1, 0, 0, 0]],
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth - indentCountertop - indentShelve], [1, 0, 0, 0]],
-//             ],
-//         },
-//     },
-//     upSection: {
-//         name: 'Верхня шафа',
-//         originalTopSection: {
-//             name: 'Звичайна шафа',
-//             dimensions: [
-//                 [[sectionUpHeight - materialWidth], [sectionDepth], [1, 0, 0, 1]], 
-//                 [[sectionUpHeight - materialWidth], [sectionDepth], [1, 0, 0, 1]], 
-//                 [[sectionWidth], [sectionDepth], [1, 0, 1, 1]], 
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth], [1, 0, 0, 0]],
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth - indentShelve], [1, 0, 0, 0]],
-//             ],
-//         },
-//         hoodSection: {
-//             name: 'Шафа з витяжкою',
-//             dimensions: [
-//                 [[sectionUpHeight - indentHood], [sectionDepth], [1, 0, 1, 1]], 
-//                 [[sectionUpHeight - indentHood], [sectionDepth], [1, 0, 1, 1]], 
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth], [1, 0, 0, 0]], 
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth], [1, 0, 0, 0]],
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth - indentShelve], [1, 0, 0, 0]],
-//             ],
-//         },
-//         cornerTopSection: {
-//             name: 'Кутова шафа',
-//             dimensions: [
-//                 [[sectionUpHeight - materialWidth], [sectionDepth], [1, 0, 0, 1]], 
-//                 [[sectionUpHeight - materialWidth], [sectionDepth], [1, 0, 0, 1]], 
-//                 [[sectionWidth], [sectionDepth], [1, 0, 1, 1]], 
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth], [1, 0, 0, 0]],
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth - indentCornerSection], [1, 0, 0, 0]],
-//             ],
-//         },
-//         cornerJoinSection: {
-//             name: 'Кутова шафа з фальш-панелю',
-//             dimensions: [
-//                 [[sectionUpHeight], [sectionDepth + indentJoinSection], [1, 0, 1, 1]], 
-//                 [[sectionUpHeight - materialWidth], [sectionDepth], [1, 0, 0, 1]], 
-//                 [[sectionWidth - materialWidth], [sectionDepth], [1, 0, 0, 1]], 
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth], [1, 0, 0, 0]],
-//                 [[sectionWidth - materialWidth * 2], [sectionDepth - indentShelve], [1, 0, 0, 0]],
-//             ],
-//         },
-//     },
-// }
 export const typeSection = function() {
-    let washEdge;
-    form.sink.checked ? washEdge = 1 : washEdge = 0;
-    let oven;
-    form.oven.checked ? oven = sectionDepth - indentCountertop : oven = partition; 
+    let washEdge = (form.sink.checked) ? 1 : 0;
+    let oven = form.oven.checked ? sectionDepth - indentCountertop : partition; 
     const type = {
         downSection: {
             name: 'Нижня шафа',
@@ -185,6 +105,7 @@ const edgeDrawer = [
 ]
 const edgeFront = [[2, 2, 2, 2], [0, 0, 0, 0]];
 
+const edgePartition = [1, 1, 0, 0];
 const edgeVisibleSide = [2, 1, 1, 1];
 const falsePanel = function() { 
     const dimensions = [
@@ -202,8 +123,8 @@ function createDetail(heightDetail, widthDetail, edgeDetail, quantity = 1, input
     addBorder(edgeDetail, tr);
     input.append(tr)
 }
-function createFront(heightDetail, widthDetail, edgeDetail, kitchenHeight, sectionType) {
-    let divider, numberFront, edge;
+function createFront(heightDetail, widthDetail, edgeDetail, kitchenHeight, sectionType, tier) {
+    let divider, numberFront;
     if (form.drawers.value > 0) {
         divider = form.drawers.value;
         numberFront = form.drawers.value
@@ -211,25 +132,25 @@ function createFront(heightDetail, widthDetail, edgeDetail, kitchenHeight, secti
         divider = 1;
         numberFront = form.front.value;
     } 
-    form.frontMaterial.value === "dsp" ? edge = edgeDetail[0] : edge = edgeDetail[1];
+    let edge = (form.frontMaterial.value === "dsp") ? edgeDetail[0] : edgeDetail[1];
 
-    let heightFront = (heightDetail / divider) - indentFront ;
+    let heightFront = (tier === "upSection") ? sectionUpHeight - indentFront : (heightDetail / divider) - indentFront * 2;
     let widthFront = (widthDetail / form.front.value) - indentFront;
     
     createDetail(heightFront, widthFront, edge, numberFront, 'detailingInput2');
     if (sectionType === "cupboardSection") {
         heightFront = kitchenHeight - form.plinth.value - heightDetail - indentFront;
         widthFront = (widthDetail - indentFront);
-        form.oven.checked ? heightFront -= ovenHeight : heightFront;
-        form.microwave.checked ? heightFront -= microwaveHeight : heightFront;
+        if (form.oven.checked) heightFront -= ovenHeight;
+        if (form.microwave.checked) heightFront -= microwaveHeight;
         
-        createDetail(heightFront, widthFront, edgeDetail, 1, 'detailingInput2')
+        createDetail(heightFront, widthFront, edge, 1, 'detailingInput2')
     }
 
 }
 function createDrawer(sectionHeight, sectionWidth, sectionDepth, edgeDetail, quantity = 1) {
     const heightDetailSide = Math.floor((sectionDepth - 13) / 50) * 50;
-    const widthDetailSide = Math.round((sectionHeight - materialWidth) / form.drawers.value * 0.65);
+    let widthDetailSide = (!form.oven.checked) ? Math.round((sectionHeight - materialWidth) / form.drawers.value * 0.65) : ovenDrawer;
     const heightDetailFront = sectionWidth - materialWidth * 4 - 5 * 2;
     const widthDetailFront = widthDetailSide - 13;
     const heightDetailDown = heightDetailSide - materialWidth * 2;
@@ -246,7 +167,6 @@ function createDrawer(sectionHeight, sectionWidth, sectionDepth, edgeDetail, qua
         input.append(tr)
     }
 }
-
 function addDetail(detail, tr) {
     
     for (let item of detail) {
@@ -262,7 +182,6 @@ function addBorder(edges, tr) {
         tr.append(td);
     }  
 }
-
 export function createSection(tier, sectionType) {
     countertopThickness = form.countertopThickness;
     plinth = form.plinth;
@@ -277,16 +196,23 @@ export function createSection(tier, sectionType) {
     neighboringSectionWidth = form.neighboringWidth.value
 
     const details = typeSection()[tier][sectionType].dimensions
-    const numberShelves = form.shelves.value;
-    const numberDrawers = form.drawers.value;
-    if (true) {
-        createFront(sectionHeight, sectionWidth, edgeFront, kitchenHeight, sectionType)
-        return
+    let numberShelves = +form.shelves.value;
+    const numberDrawers = +form.drawers.value;
+
+    createFront(sectionHeight, sectionWidth, edgeFront, kitchenHeight, sectionType, tier)
+    if (form.visibleSide.checked) {
+        createDetail (heightDownSection.value - countertopThickness.value, sectionDepth, edgeVisibleSide)
     }
+    if (form.dishwasher.checked) return
     for (let i = 0; i < 4; i++) {
         createDetail (details[i][0], details[i][1], details[i][2])
     }
+    if (sectionType === "originalBottomSection" || sectionType === "cornerBottomSection") {
+        if (!form.oven.checked) createDetail (details[3][0], details[3][1], edgePartition)
+    }
     if (numberShelves > 0) {
+        if (form.oven.checked) numberShelves += 1;
+        if (form.microwave.checked) numberShelves += 1;
         createDetail (details[4][0], details[4][1], details[4][2], numberShelves)
     }
     if (numberDrawers > 0) {
@@ -297,8 +223,6 @@ export function createSection(tier, sectionType) {
     } else if (sectionType === "cornerTopSection") {
         createDetail (falsePanel()[1][0], falsePanel()[1][1], falsePanel()[1][2])
     }
-    if (form.visibleSide.checked) {
-        createDetail (sectionHeight - countertopThickness.value, sectionDepth, edgeVisibleSide)
-    }
-    createFront(sectionHeight, sectionWidth, edgeFront, kitchenHeight, sectionType)
+    
+    
 }
