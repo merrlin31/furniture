@@ -1,4 +1,4 @@
-import { typeSection } from "./create_details.js";
+import { type } from "./create_details.js";
 
 const form = document.forms.inputForm;
 
@@ -15,13 +15,13 @@ const frontMaterialName = {
     mdf: 'МДФ',
 };
 
-for (let item in typeSection()) {
-    tierName[item] = typeSection()[item].name
+for (let item in type) {
+    tierName[item] = type[item].name
 }
-Object.entries(typeSection().downSection).forEach(([key, value]) => {
+Object.entries(type.downSection).forEach(([key, value]) => {
     if (key !== 'name') typeTierBottomName[key] = value.name;
 })
-Object.entries(typeSection().upSection).forEach(([key, value]) => {
+Object.entries(type.upSection).forEach(([key, value]) => {
     if (key !== 'name') typeTierTopName[key] = value.name;
 })
 

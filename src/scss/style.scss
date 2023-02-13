@@ -2,6 +2,10 @@
 
 @import "normal.scss";
 
+@import "header.scss";
+
+@import "detailing.scss";
+
 body {
     font-family: CormorantUpright;
     height: 100%;
@@ -14,6 +18,8 @@ main {
         color: red;
     }
 }
+
+
 
 
 
@@ -192,6 +198,10 @@ main {
     }
         
         
+}
+.left-section {
+    text-align: center;
+    margin-bottom: 10px;
 }
 // input[type='number'] {
 //     appearance: none;

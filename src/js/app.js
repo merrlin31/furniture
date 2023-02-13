@@ -9,17 +9,16 @@ const form = document.forms.inputForm;
 const btn = form.inputButton;
 
 import { createAllList } from "./create_list.js";
-import { createSection } from "./create_details.js";
+import { SectionDimensions } from "./create_details.js";
 
 createAllList()
 
 const tier = form.tier;
 let typeCabineBottom = form.typeTierBottom;
 let typeCabineTop = form.typeTierTop;
-let sectionType = `${typeTierBottom.value}`;
 let heightTopSection = form.heightUpSection;
-export const shelves = document.querySelector('.shelves');
-export const drawers = document.querySelector('.drawers');
+const shelves = document.querySelector('.shelves');
+const drawers = document.querySelector('.drawers');
 const sink = document.querySelector('.sink');
 const visibleSide = document.querySelector('.visible-side');
 const kargo = document.querySelector('.kargo');
@@ -28,13 +27,14 @@ const microwave = document.querySelector('.microwave');
 const fridge = document.querySelector('.fridge');
 const dish = document.querySelector('.dish');
 const dishwasher = document.querySelector('.dishwasher');
-export const neighboringWidth = document.querySelector('.neighboring');
+const backlight = document.querySelector('.backlight');
+const neighboringWidth = document.querySelector('.neighboring');
 const localItems = document.querySelectorAll('.local input')
 const optionItems = document.querySelectorAll('.input__options input')
-
+const optionsItem = form.querySelectorAll('.options__item');
 const depth = form.depth;
 const width = form.width;
-const optionsItem = form.querySelectorAll('.options__item');
+
 tier.addEventListener('change', function() {
     typeCabineBottom.firstElementChild.selected = true;
     typeCabineTop.firstElementChild.selected = true;
@@ -48,9 +48,9 @@ tier.addEventListener('change', function() {
         typeTierTop.classList.remove('hide');
         shelves.classList.remove('hide');
         dish.classList.remove('hide');
+        backlight.classList.remove('hide');
         depth.setAttribute('min', '200');
         depth.value = 300;
-        sectionType = `${typeTierTop.value}`;
     } else {
         optionsItem.forEach((item) => item.classList.remove('hide'));
         depth.value = 600;
@@ -60,9 +60,9 @@ tier.addEventListener('change', function() {
         microwave.classList.add('hide');
         fridge.classList.add('hide');
         dish.classList.add('hide');
+        backlight.classList.add('hide');
         form.drawers.setAttribute('max', '6');
         form.shelves.setAttribute('min', '0');
-        sectionType = `${typeTierBottom.value}`;
     }
 })
 typeCabineBottom.addEventListener('change', function() {
@@ -72,7 +72,6 @@ typeCabineBottom.addEventListener('change', function() {
     form.drawers.setAttribute('max', '6');
     form.shelves.setAttribute('min', '0');
     depth.setAttribute('min', '200');
-    sectionType = `${typeTierBottom.value}`;
     form.drawers.value = 0;
     form.shelves.value = 0;
     if (this.value === "originalBottomSection") {
@@ -105,14 +104,17 @@ typeCabineTop.addEventListener('change', function() {
     optionsItem.forEach((item) => item.classList.add('hide'));
     shelves.classList.remove('hide');
     form.dish.checked = false;
-    sectionType = `${typeTierTop.value}`;
+    
     if (this.value === "originalTopSection") {
         dish.classList.remove('hide');
+        backlight.classList.remove('hide');
     } else if (this.value === "cornerTopSection") {
         neighboringWidth.classList.remove('hide');
         dish.classList.remove('hide');
+        backlight.classList.remove('hide');
     } else if (this.value === "cornerJoinSection") {
         dish.classList.remove('hide');
+        backlight.classList.remove('hide');
     } 
 })
 heightTopSection.addEventListener('focus', function() {
@@ -280,10 +282,35 @@ form.kargo.addEventListener('change', function() {
         dishwasher.classList.remove('hide');
     }
 })
+function getValue() {
+    let countertopThickness, plinth, kitchenHeight, sectionHeight, sectionUpHeight, 
+    sectionWidth, sectionDepth, neighboringSectionWidth;
+
+    countertopThickness = form.countertopThickness;
+    plinth = form.plinth;
+
+    kitchenHeight = +form.heightKitchen.value;
+    sectionHeight = heightDownSection.value - countertopThickness.value - plinth.value;
+    sectionUpHeight = (form.heightKitchen.value - form.heightDownSection.value - 600);
+
+    sectionWidth = +form.sectionWidth.value;
+    sectionDepth = +form.depth.value;
+
+    neighboringSectionWidth = form.neighboringWidth.value
+
+    let sectionType = (form.tier.value === "upSection") 
+        ? `${form.typeTierTop.value}` 
+        : `${form.typeTierBottom.value}`;
+
+    let dimensions = [kitchenHeight, sectionHeight, sectionUpHeight, sectionWidth, 
+        sectionDepth, neighboringSectionWidth, sectionType];
+    return dimensions
+}
 btn.addEventListener('click', (event) => {
     const shelvesMin = form.shelves.getAttribute('min')
     event.preventDefault();
-    createSection(tier.value, sectionType);
+    let sectionDimensions = new SectionDimensions(...getValue());
+    sectionDimensions.createSection()
     optionItems.forEach((item) => item.checked = false);
     localItems.forEach((item) => item.readOnly = false);
     form.drawers.setAttribute('max', '6');

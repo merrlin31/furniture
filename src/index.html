@@ -4,7 +4,7 @@
     "title":"Главная"
 })
 <body>
-  <!-- @@include('html/header.html') -->
+  @@include('html/header.html')
   <div class="wraper">
     <div class="content">
       <section class="input">
@@ -132,50 +132,20 @@
                   <option value="450">450</option>
                 </select>
               </div>
+              <div class="options__item backlight hide">
+                <label for="backlight">Підсвічування:</label>
+                <input type="checkbox" name="backlight">
+              </div>
+            </div>
+            <div class="options__item left-section">
+              <label for="leftSection">Друга стіна:</label>
+              <input type="checkbox" name="leftSection">
             </div>
             <button class="input__button" name="inputButton">Додати</button>
           </form>
         </div>
       </section>
-      <section class="detailing">
-        <div class="detailing__container">
-          <h2 class="detailing__title">Перелік деталей:</h2>
-          <div class="detailing__main">
-            <table class="detailing__detail">
-              <thead>
-                <tr>
-                  <th>Довжина</th>
-                  <th>Ширина</th>
-                  <th>Кількість</th>
-                  <th>Верх</th>
-                  <th>Низ</th>
-                  <th>Ліво</th>
-                  <th>Право</th>
-                </tr>
-              </thead>
-              <tbody class="detailing__input1" id="detailingInput1">
-
-              </tbody>
-            </table>
-            <table class="detailing__front">
-              <thead>
-                <tr>
-                  <th>Довжина</th>
-                  <th>Ширина</th>
-                  <th>Кількість</th>
-                  <th>Верх</th>
-                  <th>Низ</th>
-                  <th>Ліво</th>
-                  <th>Право</th>
-                </tr>
-              </thead>
-              <tbody class="detailing__input2" id="detailingInput2">
-
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+      @@include('html/detailing.html')
     </div>
     @@include('html/footer.html')
   </div>
