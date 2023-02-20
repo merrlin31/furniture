@@ -1,4 +1,4 @@
-import { type } from "./create_details.js";
+import { type } from "./section.js";
 
 const form = document.forms.inputForm;
 

@@ -1,0 +1,74 @@
+.header {
+    background-color: green;
+    
+    color: #fff;
+
+    &__container {
+        max-width: 1024px;
+        margin: 0px auto;
+        padding: 0px 10px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    
+
+    a {
+        color: #fff;
+        text-decoration: none;
+    }
+    a:hover {
+        color: grey;
+    }
+
+    .storage {
+        width: 40%;
+        display: flex;
+        align-items: center;
+
+        @media (max-width: 1024px) {
+            width: 90%;
+            justify-content: space-around;
+        }
+
+
+
+        &__input {
+            width: 35%;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            line-height: 1.5;
+            padding: 0px 5px;
+        }
+
+        &__button {
+            padding: 5px;
+            font-size: 1.0rem;
+            line-height: 1.5;
+        }
+    }
+
+    .nav {
+        width: 50%;
+        display: flex;
+
+        @media (max-width: 1024px) {
+            width: 90%;
+            justify-content: space-around;
+        }
+
+        &__item {
+            width: 25%;
+            padding: 5px;
+            font-size: 1rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+    }
+
+}
+
+
+

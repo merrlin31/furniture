@@ -9,7 +9,7 @@ const form = document.forms.inputForm;
 const btn = form.inputButton;
 
 import { createAllList } from "./create_list.js";
-import { SectionDimensions } from "./create_details.js";
+import { SectionDimensions } from "./section.js";
 
 createAllList()
 
@@ -78,7 +78,8 @@ typeCabineBottom.addEventListener('change', function() {
         neighboringWidth.classList.add('hide');
         microwave.classList.add('hide');
         fridge.classList.add('hide');
-        dish.classList.add('hide');  
+        dish.classList.add('hide');
+        backlight.classList.add('hide');  
     } else if (this.value === "cornerBottomSection") {
         drawers.classList.add('hide');
         kargo.classList.add('hide');
@@ -87,6 +88,7 @@ typeCabineBottom.addEventListener('change', function() {
         fridge.classList.add('hide');
         dish.classList.add('hide');
         dishwasher.classList.add('hide');
+        backlight.classList.add('hide');
     }  else {
         neighboringWidth.classList.add('hide');
         sink.classList.add('hide');
@@ -94,6 +96,7 @@ typeCabineBottom.addEventListener('change', function() {
         kargo.classList.add('hide');
         dish.classList.add('hide');
         dishwasher.classList.add('hide');
+        backlight.classList.add('hide');
         form.shelves.value = 1;
         form.shelves.setAttribute('min', '1');
         form.front.value = 1;
@@ -238,7 +241,6 @@ form.fridge.addEventListener('change', function() {
 })
 form.dishwasher.addEventListener('change', function() {
     if (this.checked) {  
-        console.log(form.dishwasherSize.value)
         width.value = form.dishwasherSize.value
         localItems.forEach((item) => item.readOnly = true);
         depth.value = 600
@@ -311,6 +313,7 @@ btn.addEventListener('click', (event) => {
     event.preventDefault();
     let sectionDimensions = new SectionDimensions(...getValue());
     sectionDimensions.createSection()
+    drawers.classList.remove('hide');
     optionItems.forEach((item) => item.checked = false);
     localItems.forEach((item) => item.readOnly = false);
     form.drawers.setAttribute('max', '6');

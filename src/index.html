@@ -4,8 +4,8 @@
     "title":"Главная"
 })
 <body>
-  @@include('html/header.html')
   <div class="wraper">
+    @@include('html/header.html')
     <div class="content">
       <section class="input">
         <div class="input__container">
@@ -13,24 +13,32 @@
             <h2 class="input__title">Розмір кухні та матеріали:</h2>
             <div class="input__dimensions global">
               <div class="global__item">
-                <label for="bodyMaterial">Матеріал корпуса:</label>
-                <input type="text" id="bodyMaterial" name="body-material">
+                <label for="bodyCode">Матеріал корпуса:</label>
+                <input type="text" id="bodyCode" name="body-material">
               </div> 
               <div class="global__item">
                 <label for="bodyPrice">Ціна:</label>
                 <input type="text" id="bodyPrice" name="price-body">
               </div>
               <div class="global__item">
-                <label for="facadeMaterial">Матеріал фасаду:</label>
-                <input type="text" id="facadeMaterial" name="facade-material">
+                <label for="frontCode">Матеріал фасаду:</label>
+                <input type="text" id="frontCode" name="facade-material">
               </div>
               <div class="global__item">
-                <label for="facadePrice">Ціна:</label>
-                <input type="text" id="facadePrice" name="price-facade">
+                <label for="frontPrice">Ціна:</label>
+                <input type="text" id="frontPrice" name="price-facade">
               </div>
               <div class="global__item">
-                <label for="tabletopMaterial">Матеріал Стільниці:</label>
-                <input type="text" id="tabletopMaterial" name="tabletop-material">
+                <label for="dvpCode">Матеріал ДВП:</label>
+                <input type="text" id="dvpCode" name="dvp-material">
+              </div>
+              <div class="global__item">
+                <label for="dvpPrice">Ціна:</label>
+                <input type="text" id="dvpPrice" name="price-dvp">
+              </div>
+              <div class="global__item">
+                <label for="tabletopCode">Матеріал Стільниці:</label>
+                <input type="text" id="tabletopCode" name="tabletop-material">
               </div>
               <div class="global__item">
                 <label for="tabletopPrice">Ціна:</label>
@@ -146,6 +154,7 @@
         </div>
       </section>
       @@include('html/detailing.html')
+      @@include('html/specification.html')
     </div>
     @@include('html/footer.html')
   </div>
