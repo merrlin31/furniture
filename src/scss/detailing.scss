@@ -43,33 +43,11 @@ $border-color: #fff;
         border: 3px $border-color solid;
     }
 
-    &__detail {
+    &__detail, &__front, &__dvp, &__tabletop {
         width: 45%;
         border-collapse: collapse;
         margin: 0px auto;
         
-
-        @media (max-width: 930px) {
-            width: 100%;
-            justify-content: space-around;
-        }
-    }
-
-    &__front {
-        width: 45%;
-        border-collapse: collapse;
-        margin: 0px auto;
-
-        @media (max-width: 930px) {
-            width: 100%;
-            justify-content: space-around;
-        }
-    }
-
-    &__dvp {
-        width: 45%;
-        border-collapse: collapse;
-        margin: 0px auto;
 
         @media (max-width: 930px) {
             width: 100%;

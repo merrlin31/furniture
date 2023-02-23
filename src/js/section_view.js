@@ -1,5 +1,7 @@
 import { dataService } from "./section.js";
 
+const form = document.forms.inputForm;
+
 export class SectionView {
     constructor(section) {
         this.section = section;
@@ -12,6 +14,7 @@ export class SectionView {
             let tr = document.createElement('tr');
             for (let j = 0; j < allDetail[i].length; j++) {
                 for (let k = 0; k < allDetail[i][j].length; k++) {
+                    if (allDetail[i][0][0] === 0 || allDetail[i][1][0] === 0) continue
                     let td = document.createElement('td');
                     td.textContent = allDetail[i][j][k];
                     tr.append(td);
@@ -25,14 +28,25 @@ export class SectionView {
         element.innerHTML += this.tbody.innerHTML;
         if (element.innerHTML !== "undefined" ) element.lastElementChild.classList.add('detailing__section-end')
     }
+    
     createSpecification(element) {
         this.tbody = document.createElement("tbody");
         let tr, td;
-        let materialArea = (this.section.material === "ДСП" || this.section.material === "ДВП") ? Math.ceil(this.section.area / 5.3) : this.section.area
+        let amount = (this.section.material === "ДСП" || this.section.material === "ДВП") ? Math.ceil(this.section.area / 5.3) : this.section.area
+        if (this.section.material === "Стільниця") {
+            amount = 0;
+            dataService.allMaterials.leftTabletops.forEach(item => {
+                amount += item[0][0]
+            })
+            dataService.allMaterials.rightTabletops.forEach(item => {
+                amount += item[0][0]
+            })
+            amount = Math.ceil(amount / (form.tabletopLength.value - 32))
+        }
         let material = {
             materialCode: this.section.materialCode,
             material: this.section.material,
-            amount: materialArea,
+            amount: amount,
             price: this.section.price,
         }
         let boldEdge = {
@@ -47,13 +61,7 @@ export class SectionView {
             amount: Math.ceil(this.section.thinEdge),
             price: 7,
         }
-        let commonEdge = {
-            materialCode: "",
-            material: 'Кромкування деталей',
-            amount: this.section.commonEdge,
-            price: 21.3,
-        }
-        let arr = [material, boldEdge, thinEdge, commonEdge];
+        let arr = [material, boldEdge, thinEdge];
         for (let item of arr) {
             tr = document.createElement('tr');
             for (let key in item) {
@@ -67,10 +75,5 @@ export class SectionView {
             if (item.amount !== 0) this.tbody.append(tr)
         }
         element.innerHTML += this.tbody.innerHTML;
-    }
-    changeSide(element) {
-        this.section.leftSection = !this.section.leftSection;
-        dataService.save();
-        this.tbody.classList.toggle("leftSection")
     }
 }

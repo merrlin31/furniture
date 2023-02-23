@@ -13,6 +13,23 @@ import { SectionDimensions } from "./section.js";
 
 createAllList()
 
+function fillInput() {
+    form.bodyCode.value = 55566;
+    form.bodyPrice.value = 2200;
+    form.frontCode.value = 6666;
+    form.frontPrice.value = 2500;
+    form.dvpCode.value = 11111;
+    form.dvpPrice.value = 1100;
+    form.tabletopCode.value = 77765;
+    form.tabletopPrice.value = 5000;
+    form.heightKitchen.value = 2500;
+    form.heightUpSection.value = form.heightKitchen.value - form.heightDownSection.value;
+    form.plinth.value = 100;
+    form.countertopThickness.value = 38;
+    form.sectionWidth.value = 600;
+};
+fillInput();
+
 const tier = form.tier;
 let typeCabineBottom = form.typeTierBottom;
 let typeCabineTop = form.typeTierTop;
@@ -24,6 +41,7 @@ const visibleSide = document.querySelector('.visible-side');
 const kargo = document.querySelector('.kargo');
 const oven = document.querySelector('.oven');
 const microwave = document.querySelector('.microwave');
+const hob = document.querySelector('.hob')
 const fridge = document.querySelector('.fridge');
 const dish = document.querySelector('.dish');
 const dishwasher = document.querySelector('.dishwasher');
@@ -39,6 +57,7 @@ tier.addEventListener('change', function() {
     typeCabineBottom.firstElementChild.selected = true;
     typeCabineTop.firstElementChild.selected = true;
     optionItems.forEach((item) => item.checked = false);
+    form.leftSection.checked = false;
     form.drawers.value = 0;
     form.shelves.value = 0;
     if (this.value === "upSection") {
@@ -93,6 +112,7 @@ typeCabineBottom.addEventListener('change', function() {
         neighboringWidth.classList.add('hide');
         sink.classList.add('hide');
         visibleSide.classList.add('hide');
+        hob.classList.add('hide');
         kargo.classList.add('hide');
         dish.classList.add('hide');
         dishwasher.classList.add('hide');

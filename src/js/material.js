@@ -1,5 +1,5 @@
 export class Material {
-    constructor(materialCode, area, boldEdge, thinEdge, commonEdge, price, material, drilling, ledGroove, dvpGroove) {
+    constructor(materialCode, area, boldEdge, thinEdge, commonEdge, price, material, drilling, ledGroove, dvpGroove, millingCut) {
         this.materialCode = materialCode,
         this.area = +area.toFixed(2),
         this.boldEdge = +boldEdge.toFixed(2),
@@ -9,7 +9,8 @@ export class Material {
         this.material = material,
         this.drilling = +drilling,
         this.ledGroove = +ledGroove.toFixed(2),
-        this.dvpGroove = +dvpGroove.toFixed(2)
+        this.dvpGroove = +dvpGroove.toFixed(2),
+        this.millingCut = +millingCut.toFixed(2)
     }
 
     get cutting() {

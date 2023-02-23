@@ -9,10 +9,16 @@ const typeTierTop = form.typeTierTop;
 const typeTierBottom = form.typeTierBottom;
 const tier = form.tier;
 const frontMaterial = form.frontMaterial;
+const tabletopLenght = form.tabletopLength;
 
 const frontMaterialName = {
     dsp: 'ДСП',
     mdf: 'МДФ',
+};
+const tabletopLenghtName = {
+    3050: 3050,
+    4100: 4100,
+    4200: 4200,
 };
 
 for (let item in type) {
@@ -37,4 +43,5 @@ export function createAllList() {
     createList(typeTierBottomName, typeTierBottom);
     createList(typeTierTopName, typeTierTop);
     createList(frontMaterialName, frontMaterial);
+    createList(tabletopLenghtName, tabletopLenght);
 }
