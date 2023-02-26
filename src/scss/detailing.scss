@@ -1,13 +1,13 @@
-$border-color: #fff;
+@import "variable.scss";
 
 .detailing {
-    background-color: rgb(92, 47, 10);
-    color: $border-color;
+    background-color: $detailing-bg;
+    color: $light-color;
 
     &__container {
         max-width: 1024px;
         margin: 0px auto;
-        padding: 20px 20px;
+        padding: 10px 20px 15px;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap;
@@ -16,31 +16,35 @@ $border-color: #fff;
 
     &__title {
         text-align: center;
+        padding: 3px 5px;
     }
 
     th {
         padding: 3px;
         text-align: center;
-        border: 1px $border-color solid;
+        border: 1px $light-border-color solid;
     }
 
     td {
         padding: 3px;
         text-align: center;
-        border: 1px $border-color solid;
+        border: 1px $light-border-color solid;
         
     }
 
     &__section-end {
-        border-bottom: 3px $border-color solid;
+        border-bottom: 3px $light-border-color solid;
     }
 
     thead {
-        border: 3px $border-color solid;
+        border: 3px $light-border-color solid;
     }
 
     tbody {
-        border: 3px $border-color solid;
+        border: 3px $light-border-color solid;
+    }
+    table {
+        margin-bottom: 5px;
     }
 
     &__detail, &__front, &__dvp, &__tabletop {

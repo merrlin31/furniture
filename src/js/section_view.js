@@ -1,6 +1,7 @@
 import { dataService } from "./section.js";
 
 const form = document.forms.inputForm;
+const formPrice = document.forms.setttingsForm1;
 
 export class SectionView {
     constructor(section) {
@@ -32,7 +33,9 @@ export class SectionView {
     createSpecification(element) {
         this.tbody = document.createElement("tbody");
         let tr, td;
-        let amount = (this.section.material === "ДСП" || this.section.material === "ДВП") ? Math.ceil(this.section.area / 5.3) : this.section.area
+        let thinEdgePrice, boldEdgePrice;
+        let length = 1;
+        let amount = (this.section.material === "ДСП" || this.section.material === "ДВП") ? Math.ceil(this.section.area / 5.3) : this.section.area.toFixed(2);
         if (this.section.material === "Стільниця") {
             amount = 0;
             dataService.allMaterials.leftTabletops.forEach(item => {
@@ -43,6 +46,19 @@ export class SectionView {
             })
             amount = Math.ceil(amount / (form.tabletopLength.value - 32))
         }
+        if (this.section.materialCode === form.bodyCode.value) {
+            thinEdgePrice = formPrice.bodyThinEdge.value;
+            boldEdgePrice = formPrice.bodyBoldEdge.value;
+        }
+        if (this.section.materialCode === form.frontCode.value) {
+            thinEdgePrice = formPrice.frontThinEdge.value;
+            boldEdgePrice = formPrice.frontBoldEdge.value;
+        }
+        if (this.section.materialCode === form.tabletopCode.value) {
+            thinEdgePrice = formPrice.tabletopEdge.value;
+            boldEdgePrice = formPrice.tabletopEdge.value;
+            length = formPrice.tabletopEdgeLenght.value;
+        }
         let material = {
             materialCode: this.section.materialCode,
             material: this.section.material,
@@ -52,14 +68,14 @@ export class SectionView {
         let boldEdge = {
             materialCode: "",
             material: 'Товста кромка',
-            amount: Math.ceil(this.section.boldEdge),
-            price: 10,
+            amount: Math.ceil(this.section.boldEdge / length),
+            price: boldEdgePrice,
         }
         let thinEdge = {
             materialCode: "",
             material: 'Тонка кромка',
-            amount: Math.ceil(this.section.thinEdge),
-            price: 7,
+            amount: Math.ceil(this.section.thinEdge / length),
+            price: thinEdgePrice,
         }
         let arr = [material, boldEdge, thinEdge];
         for (let item of arr) {

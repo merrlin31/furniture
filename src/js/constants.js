@@ -1,3 +1,8 @@
+import { dataService } from "./section.js";
+
+const setttingsForm = document.forms.setttingsForm;
+const indentBtn = setttingsForm.indentButton;
+
 class Constants {
     constructor(indentCountertop, indentShelve, materialWidth, indentWall, indentCornerSection,
     indentCupboard, indentHood, indentJoinSection, partition, indentFront,
@@ -27,5 +32,19 @@ class Constants {
         return this[value]
     }
 }
-const constanceValue = [60, 20, 18, 50, 2, 20, 100, 20, 70, 3, 600, 362, 83, 20, 5, 2000, 2, 70];
-export let constants = new Constants(...constanceValue)
+function getConstants() {
+const constanceValue = [setttingsForm.indentCountertop.value, setttingsForm.indentShelve.value, setttingsForm.materialWidth.value, 
+    setttingsForm.indentWall.value, setttingsForm.indentCornerSection.value, setttingsForm.indentCupboard.value, setttingsForm.indentHood.value, 
+    setttingsForm.indentJoinSection.value, setttingsForm.partition.value, setttingsForm.indentFront.value, 
+    setttingsForm.ovenHeight.value, setttingsForm.microwaveHeight.value, setttingsForm.ovenDrawer.value,
+    setttingsForm.indentBackside.value, setttingsForm.dvpGrooveDepth.value, setttingsForm.fridgeHeight.value, 
+    setttingsForm.indentDvp.value, setttingsForm.indentPlinth.value];
+    return constanceValue;
+}
+export let constants = new Constants(...getConstants())
+
+indentBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    constants = new Constants(...getConstants());
+    dataService.addConstant(constants);
+})

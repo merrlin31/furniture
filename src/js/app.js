@@ -165,6 +165,7 @@ form.drawers.addEventListener('change', function() {
             form.shelves.readOnly = true;
             kargo.classList.add('hide');
             dishwasher.classList.add('hide');
+            (this.value > 1) ? oven.classList.add('hide') : oven.classList.remove('hide');
         }
     } else {
         if (typeCabineBottom.value !== "cupboardSection") {

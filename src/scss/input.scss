@@ -1,0 +1,169 @@
+@import "variable.scss";
+
+.input {
+    background-color: $input-bg;
+    color: $dark-color;
+    padding: 10px 0;
+    font-size: 1rem;
+
+    &__container{
+        max-width: 1000px;
+        margin: 0px auto;
+
+        @media (max-width: 1100px) {
+            max-width: 600px;
+        }
+    }
+    &__title {
+        text-align: center;
+        padding-bottom: 10px;
+        font-size: 1.3rem;
+    }
+    &__form {
+        display: flex;
+        flex-direction: column;
+        margin: 0 auto;
+    }
+
+    &__button {
+        width: 150px;
+        line-height: 1.6;
+        font-size: 1.2rem;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        border: none;
+        background-color: #438945;
+        color: $light-color;
+        align-self: center;
+    }
+
+    .tier__top, .tier__bottom, .input__tier {
+        margin: 0px 0px 5px 0px;
+        width: 40%;
+        align-self: center;
+        line-height: 1.5;
+        font-size: 1.0rem;
+        border-radius: 5px;
+        height: 24px;
+        border: 1px solid grey;
+
+        @media (max-width: 410px) {
+            width: 90%;
+        }
+    }
+
+    &__options {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        padding-bottom: 10px;
+        align-items: center;
+
+        .options__item {
+            width: 35%;
+
+            @media (max-width: 410px) {
+                width: 90%;
+            }
+        }
+    }
+}
+
+.global {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-bottom: 10px;
+
+    input, select {
+        width: 100%;
+        height: 24px;
+        line-height: 1.5;
+        font-size: 1.0rem;
+        border-radius: 5px;
+        padding: 0px 5px;
+        border: 1px solid grey;
+    }
+    label {
+        text-align: center;
+        padding-bottom: 2px;
+    }
+
+    &__item {
+        width: 23%;
+        display: flex;
+        flex-direction: column;
+
+        @media (max-width: 1100px) {
+            width: 35%;
+        }
+
+        @media (max-width: 410px) {
+            width: 90%;
+        }
+    }
+} 
+
+.local {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-bottom: 10px;
+
+    input {
+        width: 100%;
+        height: 24px;
+        line-height: 1.5;
+        font-size: 1.0rem;
+        border-radius: 5px;
+        padding: 0px 5px;
+        border: 1px solid grey;
+    }
+    label {
+        text-align: center;
+        padding-bottom: 2px;
+    }
+
+    &__item {
+        width: 35%;
+        display: flex;
+        flex-direction: column;
+
+        @media (max-width: 410px) {
+            width: 90%;
+        }
+
+        
+    }
+
+    .neighboring, .drawers {
+        width: 35%;
+        
+        @media (max-width: 410px) {
+                width: 90%;
+        }
+    }
+        
+        
+}
+
+.left-section {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sections {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    align-items: center;
+
+    &__table {
+        width: 30%;
+        text-align: left;
+
+        td {
+            padding: 0px 3px;
+        }
+    }
+}

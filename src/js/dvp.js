@@ -29,7 +29,7 @@ export class Dvp {
             console.log()
             if (this.section.sectionType === "cupboardSection") allDvp.push(upDvp);
         } else {
-            dvpHeight = this.section.sectionUpHeight - constants.constant('materialWidth') + constants.constant('dvpGrooveDepth') - constants.constant('indentDvp');
+            dvpHeight = this.section.sectionUpHeight - constants.constant('materialWidth') + constants.constant('dvpGrooveDepth') * 1 - constants.constant('indentDvp');
             dvpWidth = this.section.sectionWidth - constants.constant('materialWidth') * 2 + constants.constant('dvpGrooveDepth') * 2 - constants.constant('indentDvp');
             dvp = [[dvpHeight], [dvpWidth], [quantity]]
             allDvp.push(dvp);

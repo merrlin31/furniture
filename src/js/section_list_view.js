@@ -1,6 +1,8 @@
 import { SectionView } from "./section_view.js";
 import { dataService } from "./section.js";
 
+const formPrice = document.forms.setttingsForm1;
+
 export class SectionsListView {
     constructor(element) {
         this.element = element;
@@ -17,18 +19,18 @@ export class SectionsListView {
         allMaterials.forEach(section => {
             section.createSpecification(this.element);
         });
-        this.createService(this.element, dataService.services.cutting, "Порізка ДСП", 9.96);
-        this.createService(this.element, dataService.services.dvpCutting, "Порізка ДВП", 5.10);
-        this.createService(this.element, dataService.services.tabletopCutting, "Порізка стільниць", 34.56);
-        this.createService(this.element, dataService.services.edging, "Кромкування деталей", 21.30);
-        this.createService(this.element, dataService.services.tabletopEdging, "Кромкування стільниці", 97.50);
-        this.createService(this.element, dataService.services.tabletopLock, "З'єднання стільниці", 385.92);
-        this.createService(this.element, dataService.services.ledGroove, "Паз під LED", 21.42);
-        this.createService(this.element, dataService.services.dvpGroove, "Паз під ДВП", 21.42);
-        this.createService(this.element, dataService.services.millingCut, "Фрезерний різ", 55.26);
-        this.createService(this.element, dataService.services.millingCutTabletop, "Фрезерний різ на стільниці", 66.24);
-        this.createService(this.element, dataService.services.drilling, "Свердління отворів", 3.00);
-        this.createService(this.element, dataService.services.numberHinges, "Свердління під завіси", 5.46);
+        this.createService(this.element, +dataService.services.cutting.toFixed(2), "Порізка ДСП", formPrice.cutting.value);
+        this.createService(this.element, +dataService.services.dvpCutting.toFixed(2), "Порізка ДВП", formPrice.dvpCutting.value);
+        this.createService(this.element, +dataService.services.tabletopCutting.toFixed(2), "Порізка стільниць", formPrice.tabletopCutting.value);
+        this.createService(this.element, +dataService.services.edging.toFixed(2), "Кромкування деталей", formPrice.edging.value);
+        this.createService(this.element, +dataService.services.tabletopEdging.toFixed(2), "Кромкування стільниці", formPrice.tabletopEdging.value);
+        this.createService(this.element, +dataService.services.tabletopLock.toFixed(2), "З'єднання стільниці", formPrice.tabletopLock.value);
+        this.createService(this.element, +dataService.services.ledGroove.toFixed(2), "Паз під LED", formPrice.ledGroove.value);
+        this.createService(this.element, +dataService.services.dvpGroove.toFixed(2), "Паз під ДВП", formPrice.dvpGroove.value);
+        this.createService(this.element, +dataService.services.millingCut.toFixed(2), "Фрезерний різ", formPrice.millingCut.value);
+        this.createService(this.element, +dataService.services.millingCutTabletop.toFixed(2), "Фрезерний різ на стільниці", formPrice.millingCutTabletop.value);
+        this.createService(this.element, +dataService.services.drilling.toFixed(2), "Свердління отворів", formPrice.drilling.value);
+        this.createService(this.element, +dataService.services.numberHinges.toFixed(2), "Свердління під завіси", formPrice.numberHinges.value);
     }
 
     createPlinth(element) {
@@ -65,7 +67,7 @@ export class SectionsListView {
         td = document.createElement('td');
         td.textContent = service.amount * service.price;
         tr.append(td);
-        if (service.amount !== 0) element.append(tr)
+        if (service.amount !== 0.00) element.append(tr)
     }
 
     drawAll(allDetails) {

@@ -1,7 +1,9 @@
+@import "variable.scss";
+
 .header {
-    background-color: green;
+    background-color: $header-bg;
     
-    color: #fff;
+    color: $light-color;
 
     &__container {
         max-width: 1024px;
@@ -15,7 +17,7 @@
     
 
     a {
-        color: #fff;
+        color: $light-color;
         text-decoration: none;
     }
     a:hover {

@@ -1,8 +1,8 @@
-$border-color: #000;
+@import "variable.scss";
 
 .specification {
-    background-color: rgb(71, 197, 33);
-    color: #000;
+    background-color: $specification-bg;
+    color: $dark-color;
 
     &__container {
         max-width: 1024px;
@@ -21,26 +21,26 @@ $border-color: #000;
     th {
         padding: 3px;
         text-align: center;
-        border: 1px $border-color solid;
+        border: 1px $dark-border-color solid;
     }
 
     td {
         padding: 3px;
         text-align: center;
-        border: 1px $border-color solid;
+        border: 1px $dark-border-color solid;
         
     }
 
     &__section-end {
-        border-bottom: 3px $border-color solid;
+        border-bottom: 3px $dark-border-color solid;
     }
 
     thead {
-        border: 3px $border-color solid;
+        border: 3px $dark-border-color solid;
     }
 
     tbody {
-        border: 3px $border-color solid;
+        border: 3px $dark-border-color solid;
     }
 
     &__material {

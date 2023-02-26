@@ -3,9 +3,12 @@ import { Material } from "./material.js";
 import { SectionsListView } from "./section_list_view.js";
 import { constants } from "./constants.js";
 import { Dvp } from "./dvp.js";
+import { sectionCounter } from "./sections_counter.js";
 
 const form = document.forms.inputForm;
 let projectTitle = document.getElementById('headerInput');
+const input = document.querySelectorAll('.indent__item input')
+const priceBtn = document.forms.setttingsForm1.priceButton;
 
 export const type = {
     downSection: {
@@ -38,7 +41,7 @@ export const type = {
 }
 export let dataService = {
     
-    allProject: [],
+    allProject: {},
     allMaterials: {
         sections: [],
         fronts: [],
@@ -62,6 +65,14 @@ export let dataService = {
         numberHinges: 0,
     },
     materials: [],
+    counter: {
+        allSectionCounter: 0,
+        leftBottomSectionCounter: 0,
+        rightBottomSectionCounter: 0,
+        leftTopSectionCounter: 0,
+        rightTopSectionCounter: 0,
+    },
+    constant: {},
 
     get allSections() {
         return this.allMaterials.sections;
@@ -172,6 +183,20 @@ export let dataService = {
         }
     },
 
+    addCounter(counters) {
+        let i = 0;
+        for (let key in this.counter) {
+            this.counter[key] = counters[i]
+            i++
+        }
+        this.save();
+    },
+
+    addConstant(constants) {
+        this.constant = constants
+        this.save()
+    },
+
     findDuplicate(material) {
         let duplicateMaterial = this.materials.find(item => item.materialCode === material.materialCode)
         if (duplicateMaterial) {
@@ -185,31 +210,56 @@ export let dataService = {
         }
     },
 
+    addSettings() {
+        input.forEach(item => {
+            item.value = this.constant[item.id];
+        })
+    },
+
     save() {
-        this.allProject.push(this.allMaterials);
-        this.allProject.push(this.services);
-        this.allProject.push(this.materials);
+        this.allProject.allMaterials = this.allMaterials;
+        this.allProject.services = this.services;
+        this.allProject.materials = this.materials;
+        this.allProject.counter = this.counter;
+        this.allProject.constant = this.constant;
         localStorage.setItem(projectTitle.value, JSON.stringify(this.allProject));
     },
 
     open() {
         this.allProject = JSON.parse(localStorage.getItem(projectTitle.value)) || [];
-        this.allMaterials = this.allProject[0];
-        this.services = this.allProject[1];
-        this.materials = this.allProject[2];
+        this.allMaterials = this.allProject.allMaterials;
+        this.services = this.allProject.services;
+        this.materials = this.allProject.materials;
+        this.counter = this.allProject.counter;
+        this.constant = this.allProject.constant;
         sectionListView1.drawAll(dataService.allSections);
         sectionListView2.drawAll(dataService.allFronts);
         sectionListView3.drawAll(dataService.allDvp);
         sectionListView4.drawAll(dataService.allTabletop);
         sectionSpecification1.drawAllMaterial();
+        sectionCounter();
+        this.addSettings();
     },
 
     reset() {
-        this.sections = []
-        this.fronts = []
+        this.allMaterials.sections = []
+        this.allMaterials.fronts = []
+        this.allMaterials.dvps = []
+        this.allMaterials.leftTabletops = []
+        this.allMaterials.rightTabletops = []
+        this.allMaterials.plinth = {}
+        this.materials = []
+        for (let key in this.services) {
+            this.services[key] = 0;
+        }
+        for (let key in this.counter) {
+            this.counter[key] = 0;
+        }
         localStorage.removeItem(projectTitle.value);
         detailingInput1.innerHTML = "";
         detailingInput2.innerHTML = "";
+        detailingInput3.innerHTML = "";
+        detailingInput4.innerHTML = "";
         specificationInput1.innerHTML = "";
     },
 }
@@ -461,7 +511,6 @@ export class SectionDimensions {
         createSection.createDetailsDimensions();
     }
 }
-
 class CreateSection {
     constructor(section) {
         this.section = section
@@ -489,9 +538,11 @@ class CreateSection {
             if (this.section.sectionType === "originalBottomSection" || this.section.sectionType === "cornerBottomSection") {
                 const edgePartition = [1, 1, 0, 0];
                 let partitionDetail;
-                if (!form.oven.checked) partitionDetail = this.section.getSectionDimensions()[3];
+                if (!form.oven.checked) {
+                partitionDetail = this.section.getSectionDimensions()[3];
                 partitionDetail[partitionDetail.length - 1] = edgePartition;
                 allDetail.push(partitionDetail);
+                }
             }
             if (form.shelves.value > 0) {
                 let shelvesDetail = this.section.getShelvesDimensions();
@@ -557,15 +608,16 @@ class CreateSection {
             tabletopOptions[2], tabletopOptions[3], form.tabletopPrice.value, "Стільниця", 0, 0, 0, millingCut)
 
         dataService.addDetails(allDetail, sectionMaterial);
+        dataService.addPlinth(plinth, plinthMaterial);
         dataService.addFronts(sectionFronts, frontMaterial);
         dataService.addDvps(allDvp, dvpMaterial);
-        dataService.addPlinth(plinth, plinthMaterial);
         dataService.addTabletops(tabletop, tabletopMaterial);
         sectionListView1.drawAll(dataService.allSections);
         sectionListView2.drawAll(dataService.allFronts);
         sectionListView3.drawAll(dataService.allDvp);
         sectionListView4.drawAll(dataService.allTabletop);
         sectionSpecification1.drawAllMaterial();
+        sectionCounter();
     }
 
     calculationDvp(details) {
@@ -604,7 +656,7 @@ let sectionListView2 = new SectionsListView(detailingInput2);
 let sectionListView3 = new SectionsListView(detailingInput3);
 let sectionListView4 = new SectionsListView(detailingInput4);
 let sectionSpecification1 = new SectionsListView(specificationInput1);
-
+dataService.addConstant(constants);
 let saveBtn = document.getElementById('saveProject');
 let loadBtn = document.getElementById('loadProject');
 let resetBtn = document.getElementById('resetProject');
@@ -618,3 +670,7 @@ loadBtn.addEventListener('click', () => {
 resetBtn.addEventListener('click', () => {
     dataService.reset()
 });
+priceBtn.addEventListener('click', (event) => {
+    event.preventDefault();
+    sectionSpecification1.drawAllMaterial();
+})
