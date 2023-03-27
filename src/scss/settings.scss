@@ -2,7 +2,7 @@
 
 .settings {
     background-color: $settings-bg;
-    color: $dark-color;
+    color: $light-color;
 
     &__container {
         max-width: 1024px;
@@ -48,6 +48,11 @@
         background-color: $detailing-bg;
         color: $light-color;
         align-self: center;
+        transition: 0.3s;
+
+        &:hover {
+            background-color: lighten($color: $detailing-bg, $amount: 10%);
+        }
     }
 
 }

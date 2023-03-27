@@ -82,6 +82,16 @@
             <h2 class="settings__title">Ціни:</h2>
             <div class="settings__inputs price">
                 <div class="price__item">
+                    <label for="bodyManufacturer">Матеріал корпусу:</label>
+                    <select name="body-manufacturer" id="bodyManufacturer">
+                    </select>
+                </div>
+                <div class="price__item">
+                    <label for="frontManufacturer">Матеріал фасаду:</label>
+                    <select name="front-manufacturer" id="frontManufacturer">
+                    </select>
+                </div>
+                <div class="price__item">
                     <label for="bodyBoldEdge">Товста кромка корпусу:</label>
                     <input type="text" id="bodyBoldEdge" name="body-bold-edge" value="18.06">
                 </div>
@@ -98,12 +108,22 @@
                     <input type="text" id="frontThinEdge" name="front-thin-edge" value="8.7">
                 </div>
                 <div class="price__item">
+                    <label for="tabletopManufacturer">Матеріл стільниці:</label>
+                    <select name="tabletop-manufacturer" id="tabletopManufacturer">
+                    </select>
+                </div>
+                <div class="price__item">
                     <label for="tabletopEdge">Кромка стільниці:</label>
                     <input type="text" id="tabletopEdge" name="tabletop-edge" value="225.84">
                 </div>
                 <div class="price__item">
                     <label for="tabletopEdgeLenght">Довжина кромки стільниці (м):</label>
                     <input type="text" id="tabletopEdgeLenght" name="tabletop-edge-lenght" value="4.2">
+                </div>
+                <div class="price__item">
+                    <label for="dvpManufacturer">Матеріл ДВП:</label>
+                    <select name="dvp-manufacturer" id="dvpManufacturer">
+                    </select>
                 </div>
                 <div class="price__item">
                     <label for="cutting">Порізка ДСП:</label>
@@ -142,6 +162,10 @@
                     <input type="text" id="millingCut" name="milling-cut" value="55.26">
                 </div>
                 <div class="price__item">
+                    <label for="millingCutMin">Фрезерний різ мінімальний:</label>
+                    <input type="text" id="millingCutMin" name="milling-cut-min" value="26.34">
+                </div>
+                <div class="price__item">
                     <label for="millingCutTabletop">Фрезерний різ на стільниці:</label>
                     <input type="text" id="millingCutTabletop" name="milling-cut-tabletop" value="66.24">
                 </div>
@@ -152,6 +176,10 @@
                 <div class="price__item">
                     <label for="numberHinges">Свердління під завіси:</label>
                     <input type="text" id="numberHinges" name="number-hinges" value="5.46">
+                </div>
+                <div class="price__item">
+                    <label for="delivery">Доставка:</label>
+                    <input type="text" id="delivery" name="delivery" value="500">
                 </div>
             </div>
             <button class="settings__button" name="priceButton">Зберегти</button>

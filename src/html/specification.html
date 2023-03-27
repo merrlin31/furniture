@@ -1,19 +1,83 @@
 <section class="specification">
     <div class="specification__container">
-        <div class="specification__detail">
+        <div class="specification__table">
             <h2 class="specification__title">Перелік матеріалів:</h2>
-            <table class="specification__material">
+            <table class="specification__material hide">
                 <thead>
                     <tr>
                         <th>Код товару</th>
-                        <th>Найменування</th>
+                        <th>Назва</th>
                         <th>Кількість</th>
                         <th>Ціна</th>
                         <th>Загальна ціна</th>
+                        <th>Знижка</th>
+                        <th>Ціна зі знижкою</th>
                     </tr>
                 </thead>
                 <tbody class="specification__input1" id="specificationInput1">
-
+                </tbody>
+            </table>
+        </div>
+        <div class="specification__table">
+            <h2 class="specification__title">Перелік Фурнітури:</h2>
+            <table class="specification__furniture hide">
+                <thead>
+                    <tr>
+                        <th>Код товару</th>
+                        <th>Назва</th>
+                        <th>Кількість</th>
+                        <th>Ціна</th>
+                        <th>Загальна ціна</th>
+                        <th>Знижка</th>
+                        <th>Ціна зі знижкою</th>
+                    </tr>
+                </thead>
+                <tbody class="specification__input2" id="specificationInput2">
+                </tbody>
+            </table>
+        </div>
+        <div class="specification__table">
+            <h2 class="specification__title">Загальна вартість:</h2>
+            <table class="specification__total hide">
+                <thead>
+                    <tr>
+                        <th>Назва</th>
+                        <th>Ціна</th>
+                        <th>Знижка</th>
+                        <th>Ціна зі знижкою</th>
+                    </tr>
+                </thead>
+                <tbody class="specification__input3" id="specificationInput3">
+                    <tr class="specification__total-material">
+                        <td>Ціна матеріалів</td>
+                        <td class="total-material__sum">Ціна</td>
+                        <td class="total-material__discount">Знижка</td>
+                        <td class="total-material__price">Ціна зі знижкою</td>
+                    </tr>
+                    <tr class="specification__total-furniture">
+                        <td>Ціна фурнітури</td>
+                        <td class="total-furniture__sum">Ціна</td>
+                        <td class="total-furniture__discount">Знижка</td>
+                        <td class="total-furniture__price">Ціна зі знижкою</td>
+                    </tr>
+                    <tr class="specification__total-assembly">
+                        <td>Збирання</td>
+                        <td class="total-assembly__sum">Ціна</td>
+                        <td class="total-assembly__delivery">Знижка</td>
+                        <td class="total-assembly__price">Ціна зі знижкою</td>
+                    </tr>
+                    <tr class="specification__total-delivery">
+                        <td>Доставка</td>
+                        <td class="total-delivery__sum">Ціна</td>
+                        <td class="total-delivery__discount">Знижка</td>
+                        <td class="total-delivery__price">Ціна зі знижкою</td>
+                    </tr>
+                    <tr class="specification__total-gasoline">
+                        <td>Паливо</td>
+                        <td class="total-gasoline__sum">Ціна</td>
+                        <td class="total-gasoline__discount">Знижка</td>
+                        <td class="total-gasoline__price">Ціна зі знижкою</td>
+                    </tr>
                 </tbody>
             </table>
         </div>    

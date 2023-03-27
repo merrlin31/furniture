@@ -7,9 +7,12 @@ flsFunctions.isWebp();
 // -------------------------
 const form = document.forms.inputForm;
 const btn = form.inputButton;
+const addFurnitureBtn = document.querySelector('.add__button');
 
-import { createAllList } from "./create_list.js";
+import { createAllList, createFrontOpeningList } from "./create_list.js";
 import { SectionDimensions } from "./section.js";
+import { addFurniture } from "./furniture.js"
+import { documentActions } from "./modules/navigation.js"
 
 createAllList()
 
@@ -53,38 +56,9 @@ const optionsItem = form.querySelectorAll('.options__item');
 const depth = form.depth;
 const width = form.width;
 
-tier.addEventListener('change', function() {
-    typeCabineBottom.firstElementChild.selected = true;
-    typeCabineTop.firstElementChild.selected = true;
-    optionItems.forEach((item) => item.checked = false);
-    form.leftSection.checked = false;
-    form.drawers.value = 0;
-    form.shelves.value = 0;
-    if (this.value === "upSection") {
-        localItems.forEach((item) => item.readOnly = false);
-        optionsItem.forEach((item) => item.classList.add('hide'));
-        typeTierBottom.classList.add('hide');
-        typeTierTop.classList.remove('hide');
-        shelves.classList.remove('hide');
-        dish.classList.remove('hide');
-        backlight.classList.remove('hide');
-        depth.setAttribute('min', '200');
-        depth.value = 300;
-    } else {
-        optionsItem.forEach((item) => item.classList.remove('hide'));
-        depth.value = 600;
-        typeTierTop.classList.add('hide');
-        typeTierBottom.classList.remove('hide');
-        neighboringWidth.classList.add('hide');
-        microwave.classList.add('hide');
-        fridge.classList.add('hide');
-        dish.classList.add('hide');
-        backlight.classList.add('hide');
-        form.drawers.setAttribute('max', '6');
-        form.shelves.setAttribute('min', '0');
-    }
-})
-typeCabineBottom.addEventListener('change', function() {
+
+
+function addBottomOptions() {
     optionsItem.forEach((item) => item.classList.remove('hide'));
     localItems.forEach((item) => item.readOnly = false);
     optionItems.forEach((item) => item.checked = false);
@@ -93,13 +67,13 @@ typeCabineBottom.addEventListener('change', function() {
     depth.setAttribute('min', '200');
     form.drawers.value = 0;
     form.shelves.value = 0;
-    if (this.value === "originalBottomSection") {
+    if (typeCabineBottom.value === "originalBottomSection") {
         neighboringWidth.classList.add('hide');
         microwave.classList.add('hide');
         fridge.classList.add('hide');
         dish.classList.add('hide');
         backlight.classList.add('hide');  
-    } else if (this.value === "cornerBottomSection") {
+    } else if (typeCabineBottom.value === "cornerBottomSection") {
         drawers.classList.add('hide');
         kargo.classList.add('hide');
         oven.classList.add('hide');
@@ -122,24 +96,68 @@ typeCabineBottom.addEventListener('change', function() {
         form.front.value = 1;
         form.front.readOnly = true;
     }
-})
-typeCabineTop.addEventListener('change', function() {
+}
+function addTopOptions() {
     optionsItem.forEach((item) => item.classList.add('hide'));
     shelves.classList.remove('hide');
     form.dish.checked = false;
+    form.shelves.setAttribute('min', '0');
+    form.shelves.value = 0;
     
-    if (this.value === "originalTopSection") {
+    if (typeCabineTop.value === "originalTopSection") {
         dish.classList.remove('hide');
         backlight.classList.remove('hide');
-    } else if (this.value === "cornerTopSection") {
+    } else if (typeCabineTop.value === "cornerTopSection") {
         neighboringWidth.classList.remove('hide');
         dish.classList.remove('hide');
         backlight.classList.remove('hide');
-    } else if (this.value === "cornerJoinSection") {
+    } else if (typeCabineTop.value === "cornerJoinSection") {
         dish.classList.remove('hide');
         backlight.classList.remove('hide');
-    } 
+    }
+}
+tier.addEventListener('change', function() {
+    typeCabineBottom.firstElementChild.selected = true;
+    typeCabineTop.firstElementChild.selected = true;
+    optionItems.forEach((item) => item.checked = false);
+    form.leftSection.checked = false;
+    form.drawers.value = 0;
+    form.shelves.value = 0;
+    if (this.value === "upSection") {
+        localItems.forEach((item) => item.readOnly = false);
+        optionsItem.forEach((item) => item.classList.add('hide'));
+        typeTierBottom.classList.add('hide');
+        typeTierTop.classList.remove('hide');
+        shelves.classList.remove('hide');
+        dish.classList.remove('hide');
+        backlight.classList.remove('hide');
+        depth.setAttribute('min', '200');
+        depth.value = 300;
+        form.neighboringWidth.value = 300;
+    } else {
+        optionsItem.forEach((item) => item.classList.remove('hide'));
+        depth.value = 600;
+        form.neighboringWidth.value = 600;
+        typeTierTop.classList.add('hide');
+        typeTierBottom.classList.remove('hide');
+        neighboringWidth.classList.add('hide');
+        microwave.classList.add('hide');
+        fridge.classList.add('hide');
+        dish.classList.add('hide');
+        backlight.classList.add('hide');
+        form.drawers.setAttribute('max', '6');
+        form.shelves.setAttribute('min', '0');
+    }
 })
+tier.addEventListener('change', function() {
+    if (this.value === "upSection") {
+        createFrontOpeningList('Довший фасад', 'longerFacade')
+    } else {
+        createFrontOpeningList('Gola', 'gola')
+    }
+})
+typeCabineBottom.addEventListener('change', addBottomOptions)
+typeCabineTop.addEventListener('change', addTopOptions)
 heightTopSection.addEventListener('focus', function() {
     heightTopSection.value = (heightKitchen.value - heightDownSection.value - 600);
 })
@@ -181,11 +199,13 @@ form.sink.addEventListener('change', function() {
         kargo.classList.add('hide');
         oven.classList.add('hide');
         dishwasher.classList.add('hide');
+        hob.classList.add('hide');
     } else {
+        hob.classList.remove('hide'); 
         if (typeCabineBottom.value === "originalBottomSection") {
-        kargo.classList.remove('hide');
-        oven.classList.remove('hide');
-        dishwasher.classList.remove('hide');
+            kargo.classList.remove('hide');
+            oven.classList.remove('hide');
+            dishwasher.classList.remove('hide');
         }
     }
 })
@@ -272,12 +292,14 @@ form.dishwasher.addEventListener('change', function() {
         oven.classList.add('hide');
         kargo.classList.add('hide');
         drawers.classList.add('hide');
+        hob.classList.add('hide');
     } else {
         localItems.forEach((item) => item.readOnly = false);
         drawers.classList.remove('hide');
         sink.classList.remove('hide');
         kargo.classList.remove('hide');
-        oven.classList.remove('hide');   
+        oven.classList.remove('hide');
+        hob.classList.remove('hide');   
     };
 })
 form.dishwasherSize.addEventListener('change', function() {
@@ -305,6 +327,20 @@ form.kargo.addEventListener('change', function() {
         dishwasher.classList.remove('hide');
     }
 })
+form.hob.addEventListener('change', function() {
+    if (this.checked) {
+        dishwasher.classList.add('hide');
+        sink.classList.add('hide');
+        depth.value = 600
+        depth.readOnly = true;
+    } else {
+        sink.classList.remove('hide');
+        depth.readOnly = false;
+        if (typeCabineBottom.value === "originalBottomSection") {
+            dishwasher.classList.remove('hide');
+        }
+    }
+})
 function getValue() {
     let countertopThickness, plinth, kitchenHeight, sectionHeight, sectionUpHeight, 
     sectionWidth, sectionDepth, neighboringSectionWidth;
@@ -330,15 +366,13 @@ function getValue() {
     return dimensions
 }
 btn.addEventListener('click', (event) => {
-    const shelvesMin = form.shelves.getAttribute('min')
     event.preventDefault();
     let sectionDimensions = new SectionDimensions(...getValue());
-    sectionDimensions.createSection()
-    drawers.classList.remove('hide');
-    optionItems.forEach((item) => item.checked = false);
-    localItems.forEach((item) => item.readOnly = false);
-    form.drawers.setAttribute('max', '6');
-    form.neighboringWidth.value = 0;
-    form.drawers.value = 0;
-    form.shelves.value = shelvesMin;
+    sectionDimensions.createSection();
+    // form.neighboringWidth.value = 0;
+    (tier.value === "upSection") ? form.shelves.value = 0 : addBottomOptions()
+
 })
+addFurnitureBtn.addEventListener('click', addFurniture)
+
+document.addEventListener("click", documentActions)

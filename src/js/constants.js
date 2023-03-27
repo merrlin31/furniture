@@ -1,4 +1,4 @@
-import { dataService } from "./section.js";
+import { dataService } from "./data_service.js";
 
 const setttingsForm = document.forms.setttingsForm;
 const indentBtn = setttingsForm.indentButton;

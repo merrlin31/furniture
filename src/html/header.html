@@ -1,16 +1,21 @@
 <header class="header">
     <div class="header__container">
-        <div class="header__storage storage">
-            <input type="text" class="storage__input" name="headerInput" id="headerInput" value="Новий проект">
-            <a href="#" class="storage__button" id="saveProject">Зберегти</a>
-            <a href="#" class="storage__button" id="loadProject">Завантажити</a>
-            <a href="#" class="storage__button" id="resetProject">Видалити</a>
+        <div class="header__logo ">
+            <a href="#" data-goto=".input">Мебель</a>
         </div>
         <nav class="header__nav nav">
-            <a href="#" class="nav__item">Введення даних</a>
-            <a href="#" class="nav__item">Вибір фур-ри</a>
-            <a href="#" class="nav__item">Деталювання</a>
-            <a href="#" class="nav__item">Розрахунок</a>
+            <div class="nav__body">
+                <ul class="nav__list">
+                    <li class="nav__item"><a href="#" class="nav__link" data-goto=".input">Введення даних</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link" data-goto=".furniture">Вибір фур-ри</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link" data-goto=".detailing">Деталювання</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link" data-goto=".specification">Розрахунок</a></li>
+                    <li class="nav__item"><a href="#" class="nav__link" data-goto=".settings">Налаштування</a></li>
+                </ul>
+            </div>
+            <button class="nav__icon icon-menu" type="button" >
+                <span class="icon-menu__line"></span>
+            </button>    
         </nav>
     </div>
 </header>

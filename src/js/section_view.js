@@ -1,4 +1,4 @@
-import { dataService } from "./section.js";
+import { dataService } from "./data_service.js";
 
 const form = document.forms.inputForm;
 const formPrice = document.forms.setttingsForm1;
@@ -27,7 +27,8 @@ export class SectionView {
             this.tbody.classList.add("leftSection");
         }
         element.innerHTML += this.tbody.innerHTML;
-        if (element.innerHTML !== "undefined" ) element.lastElementChild.classList.add('detailing__section-end')
+        if (element.innerHTML !== "") element.lastElementChild.classList.add('detailing__section-end');
+        
     }
     
     createSpecification(element) {
@@ -35,7 +36,10 @@ export class SectionView {
         let tr, td;
         let thinEdgePrice, boldEdgePrice;
         let length = 1;
+        let edgeDiscount = 7;
         let amount = (this.section.material === "ДСП" || this.section.material === "ДВП") ? Math.ceil(this.section.area / 5.3) : this.section.area.toFixed(2);
+        let amountThinEdge = (this.section.material !== "ДВП") ? Math.ceil(this.section.thinEdge / length) : 0;
+        let amountBoldEdge = (this.section.material !== "ДВП") ? Math.ceil(this.section.boldEdge / length) : 0;
         if (this.section.material === "Стільниця") {
             amount = 0;
             dataService.allMaterials.leftTabletops.forEach(item => {
@@ -64,32 +68,65 @@ export class SectionView {
             material: this.section.material,
             amount: amount,
             price: this.section.price,
+            discount: this.section.discount,
         }
         let boldEdge = {
             materialCode: "",
             material: 'Товста кромка',
-            amount: Math.ceil(this.section.boldEdge / length),
+            amount: amountBoldEdge,
             price: boldEdgePrice,
+            discount: edgeDiscount,
         }
         let thinEdge = {
             materialCode: "",
             material: 'Тонка кромка',
-            amount: Math.ceil(this.section.thinEdge / length),
+            amount: amountThinEdge,
             price: thinEdgePrice,
+            discount: edgeDiscount,
         }
         let arr = [material, boldEdge, thinEdge];
         for (let item of arr) {
             tr = document.createElement('tr');
             for (let key in item) {
+                if (key === 'discount') continue;
                 td = document.createElement('td');
                 td.textContent = item[key];
                 tr.append(td);
             }
-            td = document.createElement('td');
-            td.textContent = (item.amount * item.price).toFixed(2);
-            tr.append(td);
+            this.createTotalPrice(item, tr)
             if (item.amount !== 0) this.tbody.append(tr)
         }
         element.innerHTML += this.tbody.innerHTML;
+        if (element.innerHTML !== "undefined" ) element.lastElementChild.classList.add('specification__material-end');
+    }
+
+    createSpecificationFurniture(element) {
+        this.tbody = document.createElement("tbody");
+        let tr, td;
+        tr = document.createElement('tr');
+        for (let key in this.section) {
+            if (key === 'discount' || key === 'manufacturer') continue;
+            td = document.createElement('td');
+            td.textContent = this.section[key];
+            tr.append(td);
+        }
+        this.createTotalPrice(this.section, tr)
+        if (this.section.amount !== 0) this.tbody.append(tr)
+        element.innerHTML += this.tbody.innerHTML;
+    }
+
+    createTotalPrice(item, tr) {
+        let td;
+        td = document.createElement('td');
+        let sum = (item.amount * item.price).toFixed(2);
+        td.textContent = sum;
+        tr.append(td);
+        td = document.createElement('td');
+        let discount = (item.amount * item.price * item.discount / 100).toFixed(2);
+        td.textContent = discount;
+        tr.append(td);
+        td = document.createElement('td');
+        td.textContent = (sum - discount).toFixed(2);
+        tr.append(td);
     }
 }

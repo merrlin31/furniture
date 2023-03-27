@@ -26,7 +26,6 @@ export class Dvp {
             (form.sink.checked || form.dishwasher.checked || form.fridge.checked) ? console.log('Не добавляем ДВП') : allDvp.push(dvp);
             if (form.fridge.checked) dvpUpHeight = this.section.kitchenHeight - constants.constant('fridgeHeight') - constants.constant('indentDvp');
             upDvp = [[dvpUpHeight], [dvpWidth], [quantity]];
-            console.log()
             if (this.section.sectionType === "cupboardSection") allDvp.push(upDvp);
         } else {
             dvpHeight = this.section.sectionUpHeight - constants.constant('materialWidth') + constants.constant('dvpGrooveDepth') * 1 - constants.constant('indentDvp');

@@ -1,0 +1,169 @@
+@import "variable.scss";
+
+.furniture {
+    background-color: $furniture-bg;
+    color: $dark-color;
+
+    &__container {
+        max-width: 1024px;
+        margin: 0px auto;
+        padding: 10px 20px 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: flex-start;
+    }
+
+    &__title {
+        text-align: center;
+        padding: 10px 5px;
+    }
+}
+
+.used {
+    width: 100%;
+
+    @media (max-width: 1030px) {
+        width: 30%;
+    }
+
+    @media (max-width: 600px) {
+        width: 90%;
+    }
+    
+    &__inputs {
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        row-gap: 3px;
+    }
+
+    &__item {
+        width: 32%;
+        display: flex;
+        column-gap: 10px;
+        font-size: 1.2rem;
+        line-height: 1.1;
+        text-align: center;
+
+        @media (max-width: 930px) {
+            width: 100%;
+        }
+    }
+}
+
+.recomend {
+    width: 100%;
+
+    @media (max-width: 1030px) {
+        width: 60%;
+        row-gap: 15px;
+    }
+
+    @media (max-width: 600px) {
+        width: 90%;
+    }
+
+    &__inputs {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        row-gap: 3px;
+    }
+
+    &__item {
+        width: 32%;
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        font-size: 1.2rem;
+        line-height: 1.1;
+
+        @media (max-width: 930px) {
+            width: 100%;
+        }
+    }
+
+    &__code, &__name {
+        cursor: pointer;
+    }
+
+    &__code:hover, &__name:hover {
+        color: $light-color;
+    }
+
+    &__img {
+        
+        img {
+            width: 50px;
+            transition: 0.5s;
+
+            &:hover {
+                transform: scale(4);
+
+            }
+        }
+    }
+}
+
+.add {
+    width: 100%;
+
+    input, select {
+        width: 100%;
+        height: 24px;
+        line-height: 1.5;
+        font-size: 1.0rem;
+        border-radius: 5px;
+        padding: 0px 5px;
+        border: 1px solid grey;
+    }
+
+    &__inputs {
+        font-size: 1.2rem;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        column-gap: 10px;
+        row-gap: 5px;
+
+        .button {
+            width: 32%;
+            align-self: flex-end;
+        }
+    }
+
+    &__item {
+        width: 32%;
+        text-align: center;
+        
+    }
+
+    
+
+    &__button {
+        position: relative;
+        margin: auto;
+        // margin: auto auto 20px;
+        font-size: 2rem;
+        padding-left: 6px;
+        line-height: 1.7;
+        width: 30px;
+        height: 30px;
+        border: 2px solid $dark-color;
+        border-radius: 50%;
+
+        a {
+            color: $dark-color;
+            position: absolute;
+            left: 52%;
+            top: 45%;
+            transform: translate(-50%, -50%);
+            
+        }
+        
+    }
+}

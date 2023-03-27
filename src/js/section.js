@@ -1,13 +1,13 @@
 import { Detail } from "./detail.js";
-import { Material } from "./material.js";
+import { Material, MaterialBody, MaterialFront, MaterialPlinth, MaterialTabletop } from "./material.js";
 import { SectionsListView } from "./section_list_view.js";
 import { constants } from "./constants.js";
 import { Dvp } from "./dvp.js";
 import { sectionCounter } from "./sections_counter.js";
+import { SectionFurniture } from "./section_furniture.js";
+import { dataService } from "./data_service.js";
 
 const form = document.forms.inputForm;
-let projectTitle = document.getElementById('headerInput');
-const input = document.querySelectorAll('.indent__item input')
 const priceBtn = document.forms.setttingsForm1.priceButton;
 
 export const type = {
@@ -39,230 +39,7 @@ export const type = {
         },
     },
 }
-export let dataService = {
-    
-    allProject: {},
-    allMaterials: {
-        sections: [],
-        fronts: [],
-        dvps: [],
-        leftTabletops: [],
-        rightTabletops: [],
-        plinth: {},
-    },
-    services: {
-        cutting: 0,
-        dvpCutting: 0,
-        tabletopCutting: 0,
-        edging: 0,
-        tabletopEdging: 0,
-        tabletopLock: 0,
-        ledGroove: 0,
-        dvpGroove: 0,
-        millingCut: 0,
-        millingCutTabletop: 0,
-        drilling: 0,
-        numberHinges: 0,
-    },
-    materials: [],
-    counter: {
-        allSectionCounter: 0,
-        leftBottomSectionCounter: 0,
-        rightBottomSectionCounter: 0,
-        leftTopSectionCounter: 0,
-        rightTopSectionCounter: 0,
-    },
-    constant: {},
 
-    get allSections() {
-        return this.allMaterials.sections;
-    },
-
-    get allFronts() {
-        return this.allMaterials.fronts;
-    },
-
-    get allDvp() {
-        return this.allMaterials.dvps;
-    },
-
-    get allTabletop() {
-        let tabletops = [];
-        tabletops.push(this.allMaterials.leftTabletops);
-        tabletops.push(this.allMaterials.rightTabletops)
-        return tabletops;
-    },
-
-    get saveMaterials() {
-        return this.materials;
-    },
-
-    addDetails(section, material) {
-        if (section.length > 0) this.allMaterials.sections.push(section);
-        this.services.edging += material.commonEdge;
-        this.services.drilling += material.drilling;
-        this.services.ledGroove += material.ledGroove;
-        this.services.dvpGroove += material.dvpGroove;
-        this.services.cutting += material.cutting;
-        this.save();
-    },
-
-    addFronts(front, frontMaterial) {
-        this.allMaterials.fronts.push(front);
-        this.findDuplicate(frontMaterial);
-        this.services.numberHinges += frontMaterial.drilling;
-        if (frontMaterial.material === "ДСП") {
-            this.services.cutting += frontMaterial.cutting;
-            this.services.edging += frontMaterial.commonEdge;
-        }
-        this.save();
-    },
-
-    addDvps(dvp, dvpMaterial) {
-        if (dvp.length > 0) this.allMaterials.dvps.push(dvp);
-        this.findDuplicate(dvpMaterial);
-        this.services.dvpCutting += dvpMaterial.dvpCutting;
-        this.save();
-    },
-
-    addPlinth(plinth, plinthMaterial) {
-        if (form.tier.value === "downSection") {
-            if (JSON.stringify(this.allMaterials.plinth) === '{}') {
-                this.allMaterials.plinth = plinth;
-            } else {
-                this.allMaterials.plinth.leftSection[0][0] += plinth.leftSection[0][0];
-                this.allMaterials.plinth.rightSection[0][0] += plinth.rightSection[0][0];
-            }
-        }
-        this.findDuplicate(plinthMaterial);
-        this.services.edging += plinthMaterial.commonEdge;
-        this.services.cutting += plinthMaterial.cutting;
-        this.services.millingCut += plinthMaterial.millingCut;
-        this.save();
-    },
-
-    addTabletops(tabletop, tabletopMaterial) {
-        if (form.tier.value === "downSection") {
-            this.services.tabletopCutting = 0
-            this.addTabletop(this.allMaterials.leftTabletops, tabletop.leftSection);
-            this.addTabletop(this.allMaterials.rightTabletops, tabletop.rightSection);
-            this.findDuplicate(tabletopMaterial);
-            this.services.millingCutTabletop += tabletopMaterial.millingCut;
-            this.services.tabletopEdging += tabletopMaterial.commonEdge;
-            if (this.allMaterials.leftTabletops.length > 0 && this.allMaterials.rightTabletops.length > 0) this.services.tabletopLock = 1;
-        }
-        this.save();
-    },
-
-    addTabletop(array, tabletop) {
-        if (array.length === 0) {
-            if (tabletop[0][0] !== 0) array[0] = tabletop;
-        } else {
-            let i = array.length - 1
-            if (array[i][0][0] === 0) array[i][1][0] = tabletop[1][0];
-            if (array[i][1][0] < 600) array[i][3][0] = tabletop[3][0];
-            
-            if ((array[i][0][0] + tabletop[0][0]) > +form.tabletopLength.value) {
-                array.push(tabletop)
-                i = array.length - 1
-                array[i][3][2] = 1;
-                array[i][3][3] = 1;
-            
-            } else {
-                array[i][0][0] += tabletop[0][0];
-            }
-        }
-        this.services.tabletopCutting += array.length * 1.2;
-        if (array.length > 0) {
-            if (array[0][1][0] < 600) {
-                array.forEach (item => {
-                    this.services.tabletopCutting += item[0][0] / 1000;
-                })
-                
-            }
-        }
-    },
-
-    addCounter(counters) {
-        let i = 0;
-        for (let key in this.counter) {
-            this.counter[key] = counters[i]
-            i++
-        }
-        this.save();
-    },
-
-    addConstant(constants) {
-        this.constant = constants
-        this.save()
-    },
-
-    findDuplicate(material) {
-        let duplicateMaterial = this.materials.find(item => item.materialCode === material.materialCode)
-        if (duplicateMaterial) {
-            for (let item in duplicateMaterial) {
-                if (item !== 'materialCode' && item !== 'price' && item !== 'material' && item !== 'drilling') { 
-                    duplicateMaterial[item] += material[item]
-                }  
-            }
-        } else {
-            this.materials.push(material);
-        }
-    },
-
-    addSettings() {
-        input.forEach(item => {
-            item.value = this.constant[item.id];
-        })
-    },
-
-    save() {
-        this.allProject.allMaterials = this.allMaterials;
-        this.allProject.services = this.services;
-        this.allProject.materials = this.materials;
-        this.allProject.counter = this.counter;
-        this.allProject.constant = this.constant;
-        localStorage.setItem(projectTitle.value, JSON.stringify(this.allProject));
-    },
-
-    open() {
-        this.allProject = JSON.parse(localStorage.getItem(projectTitle.value)) || [];
-        this.allMaterials = this.allProject.allMaterials;
-        this.services = this.allProject.services;
-        this.materials = this.allProject.materials;
-        this.counter = this.allProject.counter;
-        this.constant = this.allProject.constant;
-        sectionListView1.drawAll(dataService.allSections);
-        sectionListView2.drawAll(dataService.allFronts);
-        sectionListView3.drawAll(dataService.allDvp);
-        sectionListView4.drawAll(dataService.allTabletop);
-        sectionSpecification1.drawAllMaterial();
-        sectionCounter();
-        this.addSettings();
-    },
-
-    reset() {
-        this.allMaterials.sections = []
-        this.allMaterials.fronts = []
-        this.allMaterials.dvps = []
-        this.allMaterials.leftTabletops = []
-        this.allMaterials.rightTabletops = []
-        this.allMaterials.plinth = {}
-        this.materials = []
-        for (let key in this.services) {
-            this.services[key] = 0;
-        }
-        for (let key in this.counter) {
-            this.counter[key] = 0;
-        }
-        localStorage.removeItem(projectTitle.value);
-        detailingInput1.innerHTML = "";
-        detailingInput2.innerHTML = "";
-        detailingInput3.innerHTML = "";
-        detailingInput4.innerHTML = "";
-        specificationInput1.innerHTML = "";
-    },
-}
 export class SectionDimensions {
     constructor(kitchenHeight, sectionHeight, sectionUpHeight, sectionWidth, 
         sectionDepth, neighboringSectionWidth, sectionType) {
@@ -413,6 +190,8 @@ export class SectionDimensions {
     getFrontDimensions() {
         let divider, numberFront, width;
         let numberHinges = 0;
+        let gola = (form.frontOpening.value === 'gola') ? 27 : 0;
+        let golaTop = (form.frontOpening.value === 'longerFacade') ? 10 : 0;
         if (form.drawers.value > 0) {
             divider = form.drawers.value;
             numberFront = form.drawers.value
@@ -433,8 +212,9 @@ export class SectionDimensions {
         }
         let edge = (form.frontMaterial.value === "dsp") ? [2, 2, 2, 2] : [0, 0, 0, 0];
         let heightFront = (form.tier.value === "upSection") 
-            ? this.sectionUpHeight - constants.constant('indentFront') 
-            : (this.sectionHeight / divider) - constants.constant('indentFront') * 2;
+            ? this.sectionUpHeight - constants.constant('indentFront') + golaTop 
+            : Math.round((this.sectionHeight - constants.constant('indentFront') * (+divider + 1)) / divider) - gola;
+        if (this.sectionType === "originalBottomSection" && form.oven.checked) heightFront -= constants.constant('ovenHeight');
         if (heightFront <= 900) {
             numberHinges = 2 * form.front.value;
         } else if (heightFront <= 1400) {
@@ -445,7 +225,6 @@ export class SectionDimensions {
             numberHinges = 5 * form.front.value;
         }
         if (form.drawers.value > 0) numberHinges = 0
-
         let widthFront = (width / form.front.value) - constants.constant('indentFront');
         let detail = [[[heightFront], [widthFront], [numberFront], edge]];
         if (this.sectionType === "cupboardSection") {
@@ -474,7 +253,7 @@ export class SectionDimensions {
     getPlinthDimensions() {
         let detail = {};
         let cornerIndent = 0;
-        if (this.sectionType === 'cornerBottomSection') cornerIndent = this.sectionDepth - constants.constant('indentPlinth');
+        if (this.sectionType === 'cornerBottomSection') cornerIndent = this.neighboringSectionWidth - constants.constant('indentPlinth');
         let heightPlinth = this.sectionWidth - cornerIndent;
         if (this.sectionType === 'cupboardSection') heightPlinth = 0;
         if (this.leftSection)  {
@@ -522,6 +301,17 @@ class CreateSection {
         let ledGroove = 0;
         let dvpGroove = 0;
         let millingCut = 0;
+        let millingCutMin = 0;
+        let ledLenght = 0;
+        let hooks = 0;
+        let rail = 0;
+        let confirmats = 0;
+        let shelfHolder = 0;
+        let legs = 0
+
+        if (form.tier.value === "downSection") {
+            legs = (this.section.sectionWidth <= 600) ? 4 : 6;
+        }
         let sectionFronts = this.section.getFrontDimensions();
         numberHinges = sectionFronts.splice(sectionFronts.length - 1, 1)
         drilling += numberHinges * 2
@@ -534,67 +324,89 @@ class CreateSection {
             sectionDetails.forEach((item) => {
                 allDetail.push(item);
                 drilling += 4;
+                confirmats += 2;
             })
             if (this.section.sectionType === "originalBottomSection" || this.section.sectionType === "cornerBottomSection") {
                 const edgePartition = [1, 1, 0, 0];
                 let partitionDetail;
                 if (!form.oven.checked) {
-                partitionDetail = this.section.getSectionDimensions()[3];
-                partitionDetail[partitionDetail.length - 1] = edgePartition;
-                allDetail.push(partitionDetail);
+                    partitionDetail = this.section.getSectionDimensions()[3];
+                if (!form.sink.checked) partitionDetail[partitionDetail.length - 1] = edgePartition;
+                    allDetail.push(partitionDetail);
                 }
             }
             if (form.shelves.value > 0) {
                 let shelvesDetail = this.section.getShelvesDimensions();
                 allDetail.push(shelvesDetail);
-                (this.section.sectionType === "cornerBottomSection" || this.section.sectionType === "cornerBottomSection") 
-                ? drilling += form.shelves.value * 5 
-                : drilling += form.shelves.value * 4;
+                (this.section.sectionType === "cornerBottomSection" || this.section.sectionType === "cornerTopSection") 
+                    ? shelfHolder += form.shelves.value * 5 
+                    : shelfHolder += form.shelves.value * 4;
+                drilling += shelfHolder;
             }
             if (form.drawers.value > 0) {
                 let drawersDetails = this.section.getDrawersDimensions();
                 drawersDetails.forEach((item) => allDetail.push(item));
-                drilling += form.drawers.value * 34
+                drilling += form.drawers.value * 34;
+                confirmats += form.drawers.value * 14;
             }
             let falseDetail = this.section.getFalseDimensions();
             if (falseDetail.length > 0) {
                 allDetail.push(falseDetail);
-                (this.section.sectionType === "cornerBottomSection") ? drilling += 10 : drilling += 14 
+                if (this.section.sectionType === "cornerBottomSection") {
+                    drilling += 10;
+                    confirmats += 5;
+                } else {
+                    drilling += 14;
+                    confirmats += 7; 
+                }
             }
             let cupboardPlinth = this.section.getCupboardPlinth();
             if (this.section.sectionType === "cupboardSection") allDetail.push(cupboardPlinth);
         }
-        if (form.backlight.checked) ledGroove = this.section.sectionWidth / 1000 * 6;
-        if (form.tier.value === "upSection") dvpGroove = ((this.section.sectionUpHeight * 2 + this.section.sectionWidth)) / 1000
+        if (form.backlight.checked) {
+            ledLenght = this.section.sectionWidth / 1000
+            ledGroove = ledLenght * 6;
+        }
+        if (form.tier.value === "upSection") {
+            dvpGroove = ((this.section.sectionUpHeight * 2 + this.section.sectionWidth)) / 1000;
+            hooks = 2;
+            rail = this.section.sectionWidth / 1000;
+        }
+        if (form.frontOpening.value === 'gola') {
+            millingCutMin = (form.drawers.value > 0) ? form.drawers.value * 2 : 2;
+        }
         let sectionMaterial;
         if (!form.dishwasher.checked) {
             let sectionOptions = this.calculationMaterial(allDetail)
-            sectionMaterial = new Material(form.bodyCode.value, sectionOptions[0], sectionOptions[1], 
-                sectionOptions[2], sectionOptions[3], form.bodyPrice.value, "ДСП", drilling, ledGroove, dvpGroove, millingCut);
+            sectionMaterial = new MaterialBody(form.bodyCode.value, sectionOptions[0], form.bodyPrice.value, "ДСП", sectionOptions[1], 
+                sectionOptions[2], sectionOptions[3], drilling, ledGroove, dvpGroove, millingCutMin, 0);
         } else {
             allDetail = [];
-            sectionMaterial = new Material(form.bodyCode.value, 0, 0, 0, 0, form.bodyPrice.value, "ДСП", 0, 0, 0, 0);
-            numberHinges = 0;
             millingCut = this.section.sectionWidth / 1000 + 0.02
+            sectionMaterial = new MaterialBody(form.bodyCode.value, 0, form.bodyPrice.value, "ДСП", 0, 0, 0, 0, 0, 0, 0, millingCut);
+            numberHinges[0] = 0;
+            legs = 0;
+            millingCutMin = 0;
+            
         }
         
         let frontOptions = this.calculationMaterial(sectionFronts);
-        let frontMaterial = new Material(form.frontCode.value, frontOptions[0], frontOptions[1], 
-            frontOptions[2], frontOptions[3], form.frontPrice.value, 
-            form.frontMaterial.options[form.frontMaterial.selectedIndex].text, numberHinges, ledGroove, dvpGroove, millingCut);
+        let frontMaterial = new MaterialFront(form.frontCode.value, frontOptions[0], form.frontPrice.value, 
+            form.frontMaterial.options[form.frontMaterial.selectedIndex].text, frontOptions[1], 
+            frontOptions[2], frontOptions[3], numberHinges);
 
         let dvp = new Dvp(this);
         let allDvp = dvp.createDvp();
         let dvpOptions = this.calculationDvp(allDvp);
-        let dvpMaterial = new Material(form.dvpCode.value, dvpOptions, 0, 0, 0, form.dvpPrice.value, "ДВП", 0, 0, 0, 0)
+        let dvpMaterial = new Material(form.dvpCode.value, dvpOptions, form.dvpPrice.value, "ДВП")
 
         let plinth = this.section.getPlinthDimensions();
         let allPlinth = [];
         allPlinth.push(plinth.leftSection);
         allPlinth.push(plinth.rightSection);
         let plinthOptions = this.calculationMaterial(allPlinth);
-        let plinthMaterial = new Material(form.bodyCode.value, plinthOptions[0], plinthOptions[1], 
-            plinthOptions[2], plinthOptions[3], form.bodyPrice.value, "ДСП", 0, 0, 0, millingCut);
+        let plinthMaterial = new MaterialPlinth(form.bodyCode.value, plinthOptions[0], form.bodyPrice.value, "ДСП", plinthOptions[1], 
+            plinthOptions[2], plinthOptions[3]);
 
         let tabletop = this.section.getTabletopDimension();
         let allTabletop = [];
@@ -604,19 +416,40 @@ class CreateSection {
         allTabletop.push(tabletop.leftSection);
         allTabletop.push(tabletop.rightSection);
         let tabletopOptions = this.calculationMaterial(allTabletop);
-        let tabletopMaterial = new Material(form.tabletopCode.value, tabletopOptions[0], tabletopOptions[1],
-            tabletopOptions[2], tabletopOptions[3], form.tabletopPrice.value, "Стільниця", 0, 0, 0, millingCut)
+        let tabletopMaterial = new MaterialTabletop(form.tabletopCode.value, tabletopOptions[0], form.tabletopPrice.value, "Стільниця", tabletopOptions[1],
+            tabletopOptions[2], tabletopOptions[3], millingCut)
+
+        let plinthSeal = 0;
+        if (form.tier.value === "downSection") plinthSeal = this.section.sectionWidth / 1000;
+        if (this.section.sectionType === "cornerBottomSection") plinthSeal -= (this.section.neighboringSectionWidth - constants.constant('indentPlinth')) / 1000;
+        let numberDrawers = +form.drawers.value;
+        let golaL = (form.frontOpening.value === 'gola') ? this.section.sectionWidth / 1000 : 0;
+        let golaC = (form.frontOpening.value === 'gola' && form.drawers.value > 0) ? this.section.sectionWidth * (form.drawers.value - 1) / 1000 : 0;
+        let numberFront = (form.drawers.value > 0) ? +form.drawers.value : +form.front.value;
+        if (this.section.sectionType === "cupboardSection") numberFront += sectionFronts[1][2][0];
+        let kargo = (form.kargo.checked) ? 1 : 0;
+        let sink = (form.sink.checked) ? 1 : 0;
+        let dish = (form.dish.checked) ? 1 : 0;
+        let handle = (form.frontOpening.value === 'handle') ? numberFront : 0;
+        let push = (form.frontOpening.value === 'push') ? numberFront - form.drawers.value : 0;
+        let furniture = new SectionFurniture(numberHinges[0], numberDrawers, kargo, sink, dish, legs, hooks, rail, 
+            ledLenght, plinthSeal, confirmats, shelfHolder, golaL, golaC, handle, push);
 
         dataService.addDetails(allDetail, sectionMaterial);
         dataService.addPlinth(plinth, plinthMaterial);
         dataService.addFronts(sectionFronts, frontMaterial);
         dataService.addDvps(allDvp, dvpMaterial);
         dataService.addTabletops(tabletop, tabletopMaterial);
+        dataService.addUsedFurniture(furniture);
+        addUsedFurniture();
         sectionListView1.drawAll(dataService.allSections);
         sectionListView2.drawAll(dataService.allFronts);
         sectionListView3.drawAll(dataService.allDvp);
-        sectionListView4.drawAll(dataService.allTabletop);
-        sectionSpecification1.drawAllMaterial();
+        if (dataService.allTabletop[0].length > 0 || dataService.allTabletop[1].length > 0) sectionListView4.drawAll(dataService.allTabletop);
+        if (dataService.saveMaterials.length > 0) document.querySelector('.specification__material').classList.remove('hide')
+        sectionSpecification1.drawAllMaterial(dataService.saveMaterials);
+        document.querySelector('.specification__total').classList.remove('hide');
+        sectionSpecification1.drawTotalList();
         sectionCounter();
     }
 
@@ -646,31 +479,35 @@ class CreateSection {
     }
 }
 
+export function addUsedFurniture() {
+    let targetDiv = document.querySelector('.used__inputs');
+    targetDiv.innerHTML = "";
+    for (let key in dataService.usedFurniture) {
+        if (dataService.usedFurniture[key].value === 0 || dataService.usedFurniture[key].value === 0.00) continue
+        let div = document.createElement('div');
+        div.classList.add('used__item')
+        div.textContent = dataService.usedFurniture[key].description + ' : ' + dataService.usedFurniture[key].value;
+        targetDiv.append(div)
+    }
+}
+
 let detailingInput1 = document.getElementById('detailingInput1');
 let detailingInput2 = document.getElementById('detailingInput2');
 let detailingInput3 = document.getElementById('detailingInput3');
 let detailingInput4 = document.getElementById('detailingInput4');
 let specificationInput1 = document.getElementById('specificationInput1');
-let sectionListView1 = new SectionsListView(detailingInput1);
-let sectionListView2 = new SectionsListView(detailingInput2);
-let sectionListView3 = new SectionsListView(detailingInput3);
-let sectionListView4 = new SectionsListView(detailingInput4);
-let sectionSpecification1 = new SectionsListView(specificationInput1);
-dataService.addConstant(constants);
-let saveBtn = document.getElementById('saveProject');
-let loadBtn = document.getElementById('loadProject');
-let resetBtn = document.getElementById('resetProject');
+let specificationInput2 = document.getElementById('specificationInput2');
+export let sectionListView1 = new SectionsListView(detailingInput1);
+export let sectionListView2 = new SectionsListView(detailingInput2);
+export let sectionListView3 = new SectionsListView(detailingInput3);
+export let sectionListView4 = new SectionsListView(detailingInput4);
+export let sectionSpecification1 = new SectionsListView(specificationInput1);
+export let sectionSpecification2 = new SectionsListView(specificationInput2);
 
-saveBtn.addEventListener('click', () => {
-    dataService.save()
-});
-loadBtn.addEventListener('click', () => {
-    dataService.open()
-});   
-resetBtn.addEventListener('click', () => {
-    dataService.reset()
-});
+dataService.addConstant(constants);
+addUsedFurniture();
+
 priceBtn.addEventListener('click', (event) => {
     event.preventDefault();
-    sectionSpecification1.drawAllMaterial();
+    sectionSpecification1.drawAllMaterial(dataService.saveMaterials);
 })

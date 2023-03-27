@@ -1,4 +1,4 @@
-import { dataService } from "./section.js";
+import { dataService } from "./data_service.js";
 
 const form = document.forms.inputForm;
 let inputCounter = document.getElementsByClassName('sections__item');
@@ -11,10 +11,15 @@ export function sectionCounter() {
     }
     dataService.counter.allSectionCounter = dataService.counter.leftBottomSectionCounter + dataService.counter.rightBottomSectionCounter +
         dataService.counter.leftTopSectionCounter + dataService.counter.rightTopSectionCounter;
+    let textToInput = drawCounter();
+    dataService.addCounter(textToInput);
+}
+
+export function drawCounter() {
     let textToInput = [dataService.counter.allSectionCounter, dataService.counter.leftBottomSectionCounter, 
         dataService.counter.rightBottomSectionCounter, dataService.counter.leftTopSectionCounter, dataService.counter.rightTopSectionCounter];
     for (let i = 0; i < inputCounter.length; i++) {
         inputCounter[i].textContent = textToInput[i];
     }
-    dataService.addCounter(textToInput);
+    return textToInput;
 }
